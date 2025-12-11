@@ -1,3 +1,4 @@
+import Link from "next/link";
 import * as React from "react";
 
 import { SearchForm } from "@/components/search-form";
@@ -34,6 +35,20 @@ const data = {
         {
           title: "Jenis Aset",
           url: "/admin/dashboard/asset-types",
+        },
+      ],
+    },
+    {
+      title: "Kependudukan",
+      url: "#",
+      items: [
+        {
+          title: "Penduduk",
+          url: "/admin/dashboard/residents",
+        },
+        {
+          title: "Kartu Keluarga",
+          url: "/admin/dashboard/family-cards",
         },
       ],
     },
@@ -171,7 +186,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>{item.title}</a>
+                      <Link href={item.url}>{item.title}</Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
