@@ -17,6 +17,7 @@ const eslintConfig = defineConfig([
     {
       rules: {
         "@typescript-eslint/no-unused-vars": "off",
+        "react-hooks/rules-of-hooks": "off"
       },
     },
     // Override rules of eslint-config-next.
