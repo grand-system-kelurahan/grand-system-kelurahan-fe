@@ -21,13 +21,13 @@ import { usePathSegments } from "@/hooks/use-path-segment";
 import { useRegions } from "@/hooks/use-regions";
 import { calculateAge, formatDate } from "@/lib/utils";
 import { TRegion } from "@/schemas/region-schema";
-import { TResident } from "@/schemas/resident-schema";
+import { TResident, TResidentWithRelation } from "@/schemas/resident-schema";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 import { useResidentStore } from "@/stores/use-resident-store";
 import { TSelectOption } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const pendudukColumnsAdminView: ColumnDef<TResident>[] = [
+export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
   {
     accessorKey: "name",
     header: "Nama Lengkap",
@@ -40,7 +40,7 @@ export const pendudukColumnsAdminView: ColumnDef<TResident>[] = [
     accessorKey: "gender",
     header: "Jenis Kelamin",
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       return <p className="uppercase">{penduduk.gender}</p>;
     },
   },
@@ -52,9 +52,24 @@ export const pendudukColumnsAdminView: ColumnDef<TResident>[] = [
     accessorKey: "usia",
     header: "Usia",
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       const { years } = calculateAge(penduduk.date_of_birth);
       return <p>{penduduk.date_of_birth && years}</p>;
+    },
+  },
+  {
+    accessorKey: "family_member",
+    header: "Terdaftar KK",
+    cell: ({ row }) => {
+      const penduduk = row.original;
+      return penduduk.family_member == null ? (
+        <Badge variant={"destructive"}>Tidak</Badge>
+      ) : (
+        <Link
+          href={`/admin/dashboard/family-cards/${penduduk.family_member?.family_card_id}/detail`}>
+          <Badge variant={"default"}>Ya</Badge>
+        </Link>
+      );
     },
   },
   {
@@ -90,8 +105,10 @@ export const pendudukColumnsAdminView: ColumnDef<TResident>[] = [
       );
     },
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
-      return <p className="uppercase">{penduduk.region_id ?? "Tidak ada"}</p>;
+      const penduduk = row.original;
+      return (
+        <p className="uppercase">{penduduk.region?.name ?? "Tidak ada"}</p>
+      );
     },
     filterFn: (row, id, filterValue) => {
       if (!filterValue) return true;

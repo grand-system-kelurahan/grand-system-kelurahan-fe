@@ -2,53 +2,44 @@ import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { toast } from "sonner";
 
-import { TResident } from "@/schemas/resident-schema";
+import { TFamilyCard } from "@/schemas/family-card-schema";
 import {
-  createResident,
-  deleteResident,
-  getAllResidents,
-  getResidentById,
-  getResidentByName,
-  updateResident,
-} from "@/services/resident-service";
+  createFamilyCard,
+  deleteFamilyCard,
+  getAllFamilyCards,
+  getFamilyCardById,
+  updateFamilyCard,
+} from "@/services/family-card-service";
+import { useFamilyCardStore } from "@/stores/use-family-card-store";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
-import { useResidentStore } from "@/stores/use-resident-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-const queryKey = "resident";
+const queryKey = "family-cards";
 
-const toastText = "Penduduk ";
+const toastText = "Kartu keluarga ";
 
-export function useResidents() {
+export function useFamilyCards() {
   return useQuery({
     queryKey: [queryKey],
-    queryFn: getAllResidents,
+    queryFn: getAllFamilyCards,
   });
 }
 
-export function useResidentById(id: number) {
+export function useFamilyCardById(id: number) {
   return useQuery({
     queryKey: [queryKey, id],
-    queryFn: () => getResidentById(id),
+    queryFn: () => getFamilyCardById(id),
     enabled: !!id,
   });
 }
 
-export function useResidentByName(name: string) {
-  return useQuery({
-    queryKey: [queryKey, name],
-    queryFn: () => getResidentByName(name),
-    enabled: !!name,
-  });
-}
-
-export function useCreateResident() {
+export function useCreateFamilyCard() {
   const queryClient = useQueryClient();
   const { closeDialog } = useIsDialogOpenStore();
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (payload: TResident) => createResident(payload),
+    mutationFn: (payload: TFamilyCard) => createFamilyCard(payload),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
@@ -64,15 +55,15 @@ export function useCreateResident() {
   });
 }
 
-export function useUpdateResident() {
+export function useUpdateFamilyCard() {
   const queryClient = useQueryClient();
-  const { deleteSelectedData } = useResidentStore();
+  const { deleteSelectedData } = useFamilyCardStore();
   const { closeDialog } = useIsDialogOpenStore();
   const router = useRouter();
 
   return useMutation({
-    mutationFn: ({ id, payload }: { id: number; payload: TResident }) =>
-      updateResident({
+    mutationFn: ({ id, payload }: { id: number; payload: TFamilyCard }) =>
+      updateFamilyCard({
         id,
         payload,
       }),
@@ -93,13 +84,13 @@ export function useUpdateResident() {
   });
 }
 
-export function useDeleteResident() {
+export function useDeleteFamilyCard() {
   const queryClient = useQueryClient();
   const { closeDialog } = useIsDialogOpenStore();
-  const { deleteSelectedData } = useResidentStore();
+  const { deleteSelectedData } = useFamilyCardStore();
 
   return useMutation({
-    mutationFn: (id: number) => deleteResident(id),
+    mutationFn: (id: number) => deleteFamilyCard(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       toast.success(toastText + "berhasil dihapus");

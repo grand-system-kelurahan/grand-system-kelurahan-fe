@@ -6,7 +6,7 @@ export type TSelectOption = {
 export type TRequestStatus = "valid" | "invalid" | "rejected";
 export type TJenisKelamin = "Laki-laki" | "Perempuan" | "Tidak Tau";
 
-export type TStatusHubunganDalamKeluarga =
+export type TRelationship =
   | "Kepala Keluarga"
   | "Suami"
   | "Istri"

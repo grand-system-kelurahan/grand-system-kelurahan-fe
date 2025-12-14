@@ -1,4 +1,4 @@
-import { Copy, Eye, Pencil } from "lucide-react";
+import { Copy, Pencil } from "lucide-react";
 import Link from "next/link";
 
 import { usePathSegments } from "@/hooks/use-path-segment";
@@ -8,14 +8,13 @@ import {
   handleCopy,
   handleCopyPendudukData,
 } from "@/lib/utils";
-import { TResident } from "@/schemas/resident-schema";
+import { TResidentWithRelation } from "@/schemas/resident-schema";
 
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 
 interface Props {
-  residentData: TResident;
+  residentData: TResidentWithRelation;
 }
 
 export default function ResidentTable({ residentData }: Props) {

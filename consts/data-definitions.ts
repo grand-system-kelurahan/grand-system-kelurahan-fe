@@ -7,7 +7,7 @@ import {
   TKewarganegaraan,
   TPendidikan,
   TPenyandangCacat,
-  TStatusHubunganDalamKeluarga,
+  TRelationship,
   TStatusPerkawinan,
 } from "@/types/types";
 
@@ -97,7 +97,7 @@ export const StatusPerkawinan: TStatusPerkawinan[] = [
   "Tidak Tau",
 ];
 
-export const StatusHubunganDalamKeluarga: TStatusHubunganDalamKeluarga[] = [
+export const StatusHubunganDalamKeluarga: TRelationship[] = [
   "Kepala Keluarga",
   "Istri",
   "Suami",

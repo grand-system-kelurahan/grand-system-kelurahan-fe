@@ -12,6 +12,7 @@ import { useRegionStore } from "@/stores/use-region-store";
 
 import { Description, Heading1 } from "../atoms/typography";
 import { regionColumns } from "../data-table/columns/region-columns";
+import CodeEditorDialog from "../molecules/code-editor-dialog";
 import DialogTemplate from "../molecules/dialog-template";
 import { StatCard } from "../molecules/stat-card";
 import TableSkeleton from "../molecules/table-skeleton";
@@ -44,6 +45,11 @@ export default function RegionsPage() {
         </Button>
       </div>
       <hr className="my-4" />
+      {data && (
+        <div className="mb-4">
+          <CodeEditorDialog content={data} />
+        </div>
+      )}
       {isLoading ? (
         <TableSkeleton rowCount={10} columnCount={3} />
       ) : (

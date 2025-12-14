@@ -18,9 +18,5 @@ export default function AddResidentForm() {
     await mutateAsync(values);
   }
 
-  return (
-    <>
-      <ResidentForm form={form} onSubmit={onSubmit} isLoading={isPending} />
-    </>
-  );
+  return <ResidentForm form={form} onSubmit={onSubmit} isLoading={isPending} />;
 }

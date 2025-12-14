@@ -1,6 +1,7 @@
 import z from "zod";
 
 import { BaseSchema } from "./base-schema";
+import { TFamilyMember } from "./family-member-schema";
 import { TRegion } from "./region-schema";
 
 export const FormResidentSchema = z
@@ -98,4 +99,5 @@ export type TResident = z.infer<typeof FormResidentSchema>;
 
 export type TResidentWithRelation = TResident & {
   region: TRegion;
+  family_member: TFamilyMember;
 };

@@ -13,6 +13,11 @@ export const getResidentById = async (id: number) => {
   return data;
 };
 
+export const getResidentByName = async (name: string) => {
+  const { data } = await api.get(`/${ENDPOINT}?search=${name}`);
+  return data;
+};
+
 export const createResident = async (payload: TResident) => {
   const parsed = FormResidentSchema.partial().safeParse(payload);
   if (!parsed.success) {

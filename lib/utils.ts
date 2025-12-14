@@ -3,7 +3,8 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
-import { TResident } from "@/schemas/resident-schema";
+import { TFamilyCardWithRelation } from "@/schemas/family-card-schema";
+import { TResident, TResidentWithRelation } from "@/schemas/resident-schema";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TSelectOption } from "@/types/types";
 
@@ -200,70 +201,14 @@ function processLabelTemplate<T>(
   });
 }
 
-// export async function handleCopyKKData(kartuKeluargaData: TKartuKeluarga) {
-//   const kkData = `NAMA KEPALA KELUARGA: ${
-//     kartuKeluargaData?.namaKepalaKeluarga?.toUpperCase() || "-"
-//   }
-// ALAMAT: ${kartuKeluargaData?.alamat?.toUpperCase() || "-"}
-// LINGKUNGAN: ${kartuKeluargaData?.lingkungan?.toUpperCase() || "-"}
-// TERAKHIR DIPERBARUI: ${
-//     formatWitaDate(kartuKeluargaData?.updatedAt)?.toUpperCase() || "-"
-//   }
-// =============\n\n`;
-
-//   let anggotaData = "";
-
-//   kartuKeluargaData?.anggota
-//     ?.slice()
-//     .sort((a: IAnggotaKeluarga, b: IAnggotaKeluarga) => {
-//       const indexA = StatusHubunganDalamKeluarga.indexOf(
-//         a.statusHubunganDalamKeluarga
-//       );
-//       const indexB = StatusHubunganDalamKeluarga.indexOf(
-//         b.statusHubunganDalamKeluarga
-//       );
-
-//       if (indexA !== indexB) {
-//         return indexA - indexB;
-//       }
-
-//       const dateA = new Date(a.detail?.tanggalLahir || "");
-//       const dateB = new Date(b.detail?.tanggalLahir || "");
-//       return dateA.getTime() - dateB.getTime();
-//     })
-//     .forEach((anggota: IAnggotaKeluarga) => {
-//       anggotaData += `STATUS HUBUNGAN DALAM KELUARGA: ${
-//         anggota.statusHubunganDalamKeluarga?.toUpperCase() || "-"
-//       }
-// NAMA LENGKAP: ${anggota?.detail?.nama?.toUpperCase() || "-"}
-// LINGKUNGAN: ${anggota?.detail?.lingkungan?.toUpperCase() || "-"}
-// TEMPAT LAHIR: ${anggota?.detail?.tempatLahir?.toUpperCase() || "-"}
-// TANGGAL LAHIR: ${anggota?.detail?.tanggalLahir?.toUpperCase() || "-"}
-// USIA: ${calculateAge(anggota?.detail?.tanggalLahir as string).years} TAHUN
-// AGAMA: ${anggota?.detail?.agama?.toUpperCase() || "-"}
-// PENDIDIKAN: ${anggota?.detail?.pendidikan?.toUpperCase() || "-"}
-// JENIS PEKERJAAN: ${anggota?.detail?.jenisPekerjaan?.toUpperCase() || "-"}
-// STATUS PERKAWINAN: ${anggota?.detail?.statusPerkawinan?.toUpperCase() || "-"}
-// KEWARGANEGARAAN: ${anggota?.detail?.kewarganegaraan?.toUpperCase() || "-"}
-// GOLONGAN DARAH: ${anggota?.detail?.golonganDarah?.toUpperCase() || "-"}
-// PENYANDANG CACAT: ${anggota?.detail?.penyandangCacat?.toUpperCase() || "-"}
-// NAMA AYAH: ${anggota?.detail?.namaAyah?.toUpperCase() || "-"}
-// NAMA IBU: ${anggota?.detail?.namaIbu?.toUpperCase() || "-"}\n
-// -------------\n`;
-//     });
-
-//   const finalKKData = kkData + anggotaData;
-
-//   await handleCopy(finalKKData);
-// }
-
-export async function handleCopyPendudukData(pendudukData: TResident) {
+export async function handleCopyPendudukData(
+  pendudukData: TResidentWithRelation
+) {
   const dataToCopy = `NAMA LENGKAP: ${pendudukData?.name.toUpperCase() || "-"}
+LINGKUNGAN: ${pendudukData?.region?.name.toUpperCase() || "-"}
 JENIS KELAMIN: ${pendudukData?.gender.toUpperCase() || "-"}
 TEMPAT LAHIR: ${pendudukData?.place_of_birth.toUpperCase() || "-"}
-TANGGAL LAHIR: ${
-    formatDate(pendudukData?.date_of_birth.toString()).toUpperCase() || "-"
-  }
+TANGGAL LAHIR: ${formatDate(pendudukData?.date_of_birth.toString()) || "-"}
 USIA: ${calculateAge(pendudukData?.date_of_birth).years} TAHUN
 AGAMA: ${pendudukData?.religion.toUpperCase() || "-"}
 PENDIDIKAN: ${pendudukData?.education.toUpperCase() || "-"}
@@ -276,6 +221,86 @@ NAMA AYAH: ${pendudukData?.father_name.toUpperCase() || "-"}
 NAMA IBU: ${pendudukData?.mother_name.toUpperCase() || "-"}`;
 
   await handleCopy(dataToCopy);
+}
+
+export async function handleCopyKKData(
+  kartuKeluargaData: TFamilyCardWithRelation
+) {
+  const kkData = `NAMA KEPALA KELUARGA: ${
+    kartuKeluargaData?.head_of_family_name?.toUpperCase() || "-"
+  }
+ALAMAT: ${kartuKeluargaData?.address?.toUpperCase() || "-"}
+LINGKUNGAN: ${kartuKeluargaData?.region?.name?.toUpperCase() || "-"}
+TERAKHIR DIPERBARUI: ${
+    formatDate(kartuKeluargaData?.updated_at?.toString())?.toUpperCase() || "-"
+  }
+=============\n\n`;
+
+  //   let anggotaData = "";
+
+  //   kartuKeluargaData?.anggota
+  //     ?.slice()
+  //     .sort((a: IAnggotaKeluarga, b: IAnggotaKeluarga) => {
+  //       const indexA = StatusHubunganDalamKeluarga.indexOf(
+  //         a.statusHubunganDalamKeluarga
+  //       );
+  //       const indexB = StatusHubunganDalamKeluarga.indexOf(
+  //         b.statusHubunganDalamKeluarga
+  //       );
+
+  //       if (indexA !== indexB) {
+  //         return indexA - indexB;
+  //       }
+
+  //       const dateA = new Date(a.detail?.tanggalLahir || "");
+  //       const dateB = new Date(b.detail?.tanggalLahir || "");
+  //       return dateA.getTime() - dateB.getTime();
+  //     })
+  //     .forEach((anggota: IAnggotaKeluarga) => {
+  //       anggotaData += `STATUS HUBUNGAN DALAM KELUARGA: ${
+  //         anggota.statusHubunganDalamKeluarga?.toUpperCase() || "-"
+  //       }
+  // NAMA LENGKAP: ${anggota?.detail?.nama?.toUpperCase() || "-"}
+  // LINGKUNGAN: ${anggota?.detail?.lingkungan?.toUpperCase() || "-"}
+  // TEMPAT LAHIR: ${anggota?.detail?.tempatLahir?.toUpperCase() || "-"}
+  // TANGGAL LAHIR: ${anggota?.detail?.tanggalLahir?.toUpperCase() || "-"}
+  // USIA: ${calculateAge(anggota?.detail?.tanggalLahir as string).years} TAHUN
+  // AGAMA: ${anggota?.detail?.agama?.toUpperCase() || "-"}
+  // PENDIDIKAN: ${anggota?.detail?.pendidikan?.toUpperCase() || "-"}
+  // JENIS PEKERJAAN: ${anggota?.detail?.jenisPekerjaan?.toUpperCase() || "-"}
+  // STATUS PERKAWINAN: ${anggota?.detail?.statusPerkawinan?.toUpperCase() || "-"}
+  // KEWARGANEGARAAN: ${anggota?.detail?.kewarganegaraan?.toUpperCase() || "-"}
+  // GOLONGAN DARAH: ${anggota?.detail?.golonganDarah?.toUpperCase() || "-"}
+  // PENYANDANG CACAT: ${anggota?.detail?.penyandangCacat?.toUpperCase() || "-"}
+  // NAMA AYAH: ${anggota?.detail?.namaAyah?.toUpperCase() || "-"}
+  // NAMA IBU: ${anggota?.detail?.namaIbu?.toUpperCase() || "-"}\n
+  // -------------\n`;
+  //     });
+
+  //   const finalKKData = kkData + anggotaData;
+
+  //   await handleCopy(finalKKData);
+  // }
+
+  // export async function handleCopyPendudukData(pendudukData: TResident) {
+  //   const dataToCopy = `NAMA LENGKAP: ${pendudukData?.name.toUpperCase() || "-"}
+  // JENIS KELAMIN: ${pendudukData?.gender.toUpperCase() || "-"}
+  // TEMPAT LAHIR: ${pendudukData?.place_of_birth.toUpperCase() || "-"}
+  // TANGGAL LAHIR: ${
+  //     formatDate(pendudukData?.date_of_birth.toString()).toUpperCase() || "-"
+  //   }
+  // USIA: ${calculateAge(pendudukData?.date_of_birth).years} TAHUN
+  // AGAMA: ${pendudukData?.religion.toUpperCase() || "-"}
+  // PENDIDIKAN: ${pendudukData?.education.toUpperCase() || "-"}
+  // JENIS PEKERJAAN: ${pendudukData?.occupation.toUpperCase() || "-"}
+  // STATUS PERKAWINAN: ${pendudukData?.marital_status.toUpperCase() || "-"}
+  // KEWARGANEGARAAN: ${pendudukData?.citizenship.toUpperCase() || "-"}
+  // GOLONGAN DARAH: ${pendudukData?.blood_type.toUpperCase() || "-"}
+  // PENYANDANG CACAT: ${pendudukData?.disabilities.toUpperCase() || "-"}
+  // NAMA AYAH: ${pendudukData?.father_name.toUpperCase() || "-"}
+  // NAMA IBU: ${pendudukData?.mother_name.toUpperCase() || "-"}`;
+
+  // await handleCopy(dataToCopy);
 }
 
 export function getInitials(name: string): string {
@@ -303,4 +328,14 @@ export async function handleCopy(text: string) {
     console.error("Gagal menyalin teks:", error);
     toast.error("Gagal menyalin teks");
   }
+}
+
+export function capitalizeWords(sentence: string): string {
+  if (!sentence) return "";
+
+  return sentence
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }

@@ -6,28 +6,28 @@ import { useMemo } from "react";
 
 import { Description, Heading1 } from "@/components/atoms/typography";
 import { Button } from "@/components/ui/button";
+import { useFamilyCards } from "@/hooks/use-family-cards";
 import { usePathSegments } from "@/hooks/use-path-segment";
-import { useResidents } from "@/hooks/use-residents";
-import { TResident } from "@/schemas/resident-schema";
+import { TFamilyCardWithRelation } from "@/schemas/family-card-schema";
+import { useFamilyCardStore } from "@/stores/use-family-card-store";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
-import { useResidentStore } from "@/stores/use-resident-store";
 
-import { residentColumns } from "../data-table/columns/resident-columns";
+import { familyCardColumns } from "../data-table/columns/family-card-columns";
 import { DataTable } from "../data-table/data-table";
 import CodeEditorDialog from "../molecules/code-editor-dialog";
 import DialogTemplate from "../molecules/dialog-template";
 import { StatCard } from "../molecules/stat-card";
 import TableSkeleton from "../molecules/table-skeleton";
-import DeleteResidentRorm from "../organisms/delete-resident-form";
+import DeleteFamilyCardRorm from "../organisms/delete-family-card-form";
 
-export default function ResidentsPage() {
+export default function FamilyCardsPage() {
   const pathSegments = usePathSegments();
   const { dialogType } = useIsDialogOpenStore();
-  const { selectedData } = useResidentStore();
-  const { data, isLoading, refetch } = useResidents();
+  const { selectedData } = useFamilyCardStore();
+  const { data, isLoading, refetch } = useFamilyCards();
 
-  const residentsData: TResident[] = useMemo(
-    () => data?.data?.residents || [],
+  const familyCardsData: TFamilyCardWithRelation[] = useMemo(
+    () => data?.data?.family_cards || [],
     [data]
   );
 
@@ -35,13 +35,13 @@ export default function ResidentsPage() {
     <div>
       <div className="flex justify-between items-center">
         <div>
-          <Heading1 text="Data Penduduk" />
-          <Description text="Data penduduk yang tersedia" />
+          <Heading1 text="Data Kartu Keluarga" />
+          <Description text="Data kartu keluarga yang tersedia" />
         </div>
         <Link href={`${pathSegments.raw}/add`}>
           <Button className="flex justify-between items-center gap-2">
             <PlusCircle />
-            Tambah Data Penduduk
+            Tambah Data Kartu Keluarga
           </Button>
         </Link>
       </div>
@@ -56,25 +56,24 @@ export default function ResidentsPage() {
       ) : (
         <div className="space-y-4">
           <StatCard
-            title="Total Penduduk"
-            value={residentsData.length}
-            description="Total penduduk di Kelurahan"
+            title="Total Kartu Keluarga"
+            value={familyCardsData.length}
+            description="Total kartu keluarga di Kelurahan"
             icon={Users}
           />
           <DataTable
-            columns={residentColumns}
-            data={residentsData}
-            filteringKey="name"
+            columns={familyCardColumns}
+            data={familyCardsData}
+            filteringKey="head_of_family_name"
             refetch={refetch}
           />
         </div>
       )}
-
       {dialogType == "delete" && selectedData && (
         <DialogTemplate
           title="Hapus Data Penduduk"
-          description={`Aksi ini akan menghapus data penduduk ${selectedData.name}. Apakah anda yakin?`}>
-          <DeleteResidentRorm resident={selectedData} />
+          description={`Aksi ini akan menghapus data penduduk ${selectedData.head_of_family_name}. Apakah anda yakin?`}>
+          <DeleteFamilyCardRorm familyCard={selectedData} />
         </DialogTemplate>
       )}
     </div>

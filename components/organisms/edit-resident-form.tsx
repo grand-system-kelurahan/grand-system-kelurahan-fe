@@ -18,7 +18,7 @@ export default function EditResidentForm({ resident, isLoading }: Props) {
     resolver: zodResolver(FormResidentSchema),
     defaultValues: {
       blood_type: resident.blood_type,
-      date_of_birth: resident.date_of_birth,
+      date_of_birth: new Date(resident.date_of_birth),
       name: resident.name,
       gender: resident.gender,
       marital_status: resident.marital_status,
