@@ -2,7 +2,6 @@
 
 import { Pencil } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 import {
   AlertDialog,
@@ -28,7 +27,6 @@ import { useUpdateFamilyMember } from "@/hooks/use-family-members";
 import { TFamilyMember } from "@/schemas/family-member-schema";
 import { TResident } from "@/schemas/resident-schema";
 import { TRelationship } from "@/types/types";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   resident: TResident;

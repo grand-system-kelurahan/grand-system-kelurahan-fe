@@ -1,19 +1,3 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-
 export default function Page() {
   return (
     <div className="flex flex-col flex-1 gap-4 p-4">
@@ -22,7 +6,7 @@ export default function Page() {
         <div className="bg-muted/50 rounded-xl aspect-video" />
         <div className="bg-muted/50 rounded-xl aspect-video" />
       </div>
-      <div className="flex-1 bg-muted/50 rounded-xl min-h-[100vh] md:min-h-min" />
+      <div className="flex-1 bg-muted/50 rounded-xl md:min-h-min" />
     </div>
   );
 }

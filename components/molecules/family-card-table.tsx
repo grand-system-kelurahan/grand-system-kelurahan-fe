@@ -13,6 +13,7 @@ import {
 import { TFamilyCardWithRelation } from "@/schemas/family-card-schema";
 import { TFamilyMemberWithRelation } from "@/schemas/family-member-schema";
 import { TResident } from "@/schemas/resident-schema";
+import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 import { TRelationship } from "@/types/types";
 
 import { Description, Heading2 } from "../atoms/typography";
@@ -40,6 +41,7 @@ export default function FamilyCardTable({
   includeAction = true,
 }: Props) {
   const pathSegments = usePathSegments();
+  const { openDialog } = useIsDialogOpenStore();
 
   return (
     <div>
@@ -146,6 +148,9 @@ export default function FamilyCardTable({
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Terakhir Diperbarui</TableCell>
+            <TableCell>
+              {formatDate(familyCardData?.updated_at?.toString() as string)}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

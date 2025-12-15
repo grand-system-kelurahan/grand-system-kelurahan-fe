@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { Eye, Pencil, Trash } from "lucide-react";
+import { ExternalLink, Eye, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -63,11 +63,19 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
     cell: ({ row }) => {
       const penduduk = row.original;
       return penduduk.family_member == null ? (
-        <Badge variant={"destructive"}>Tidak</Badge>
+        <Badge
+          variant={"outline"}
+          className="bg-red-100 dark:bg-red-800 border-none text-red-600 dark:text-red-100">
+          Tidak
+        </Badge>
       ) : (
         <Link
           href={`/admin/dashboard/family-cards/${penduduk.family_member?.family_card_id}/detail`}>
-          <Badge variant={"default"}>Ya</Badge>
+          <Badge
+            variant={"outline"}
+            className="bg-green-100 dark:bg-green-800 border-none text-green-600 dark:text-green-100">
+            Ya <ExternalLink />
+          </Badge>
         </Link>
       );
     },

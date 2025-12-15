@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import BreadcrumbComponent from "@/components/molecules/breadcrumb-component";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -29,19 +30,7 @@ export default function Layout({
             orientation="vertical"
             className="mr-2 data-[orientation=vertical]:h-4"
           />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Building Your Application
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <BreadcrumbComponent />
         </header>
         <div className="p-4 md:p-8">{children}</div>
       </SidebarInset>
