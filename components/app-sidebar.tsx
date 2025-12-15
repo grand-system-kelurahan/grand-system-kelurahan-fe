@@ -31,11 +31,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <VersionSwitcher
+        {/* <VersionSwitcher
           versions={data.versions}
           defaultVersion={data.versions[0]}
         />
-        <SearchForm />
+        <SearchForm /> */}
+        <div className="p-2">
+          <p className="font-bold text-xl">Signal</p>
+          <p className="text-muted-foreground text-sm">
+            Sistem Kelurahan Digital
+          </p>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         {sidebarData.map((item) => (

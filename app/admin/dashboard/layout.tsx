@@ -1,13 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import BreadcrumbComponent from "@/components/molecules/breadcrumb-component";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { ModeToggle } from "@/components/molecules/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -24,13 +17,16 @@ export default function Layout({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex items-center gap-2 px-4 border-b h-16 shrink-0">
-          <SidebarTrigger className="-ml-1" />
-          <Separator
-            orientation="vertical"
-            className="mr-2 data-[orientation=vertical]:h-4"
-          />
-          <BreadcrumbComponent />
+        <header className="flex justify-between items-center gap-2 px-4 border-b h-16 shrink-0">
+          <div className="flex justify-between items-center gap-2">
+            <SidebarTrigger className="-ml-1" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 data-[orientation=vertical]:h-4"
+            />
+            <BreadcrumbComponent />
+          </div>
+          <ModeToggle />
         </header>
         <div className="p-4 md:p-8">{children}</div>
       </SidebarInset>
