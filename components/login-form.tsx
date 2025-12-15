@@ -2,6 +2,7 @@
 
 import { LogIn } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -19,6 +20,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"form">) {
   const { isPending, mutateAsync } = useLogin();
+  const router = useRouter();
 
   const form = useForm<TLogin>({
     resolver: zodResolver(FormLoginSchema),
@@ -36,9 +38,11 @@ export function LoginForm({
         const token = response?.data?.token;
         if (!token) {
           toast.error("Gagal masuk, token tidak ditemukan");
+          return;
         }
         localStorage.setItem("token", token);
         form.reset();
+        router.push("/");
       }
     } catch (err) {
       console.error(err);
@@ -47,9 +51,9 @@ export function LoginForm({
   return (
     <>
       <div className="flex flex-col items-center gap-1 text-center">
-        <h1 className="font-bold text-2xl">Login to your account</h1>
+        <h1 className="font-bold text-2xl">Selamat Datang Kembali</h1>
         <p className="text-muted-foreground text-sm text-balance">
-          Enter your email below to login to your account
+          Masuk untuk melanjutkan
         </p>
       </div>
 

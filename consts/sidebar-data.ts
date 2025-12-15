@@ -18,12 +18,12 @@ export const sidebarData = [
         url: "/admin/dashboard/regions",
       },
       {
-        title: "Jenis Surat",
-        url: "/admin/dashboard/letter-types",
+        title: "Aset",
+        url: "/admin/dashboard/assets",
       },
       {
-        title: "Jenis Aset",
-        url: "/admin/dashboard/asset-types",
+        title: "Jenis Surat",
+        url: "/admin/dashboard/letter-types",
       },
     ],
   },
@@ -38,6 +38,16 @@ export const sidebarData = [
       {
         title: "Kartu Keluarga",
         url: "/admin/dashboard/family-cards",
+      },
+    ],
+  },
+  {
+    title: "Peminjaman Aset",
+    url: "/admin/dashboard/asset-loans",
+    items: [
+      {
+        title: "Pengajuan Peminjaman Aset",
+        url: "/admin/dashboard/asset-loans",
       },
     ],
   },

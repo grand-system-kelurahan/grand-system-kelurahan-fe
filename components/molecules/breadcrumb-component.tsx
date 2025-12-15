@@ -88,7 +88,7 @@ export default function BreadcrumbComponent() {
     <Breadcrumb>
       <BreadcrumbList>
         {breadcrumbItems.map((item, index) => (
-          <>
+          <div className="flex items-center" key={index}>
             <BreadcrumbItem key={`item-${index}`}>
               {item.isActive || item.url === "#" ? (
                 <BreadcrumbPage>{item.title}</BreadcrumbPage>
@@ -99,7 +99,7 @@ export default function BreadcrumbComponent() {
             {index < breadcrumbItems.length - 1 && (
               <BreadcrumbSeparator key={`separator-${index}`} />
             )}
-          </>
+          </div>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
