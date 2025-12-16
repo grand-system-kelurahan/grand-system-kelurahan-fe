@@ -25,23 +25,14 @@ export default function EditAssetForm({ asset }: Props) {
     },
   });
 
-  const { mutate, isPending } = useUpdateAsset();
+  const { mutateAsync, isPending } = useUpdateAsset();
 
   async function onSubmit(values: TAsset) {
-    console.log(values);
-
-    const res = mutate({
+    await mutateAsync({
       id: asset.id as number,
       payload: values,
     });
-    console.log(res);
   }
 
-  return (
-    <AssetForm
-      form={form}
-      onSubmit={onSubmit}
-      isLoading={isPending}
-    />
-  );
+  return <AssetForm form={form} onSubmit={onSubmit} isLoading={isPending} />;
 }

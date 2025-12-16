@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { AlertCircle, Book, Menu, Sunset, Trees, Zap } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -67,69 +67,92 @@ const Navbar = ({
     { title: "Home", url: "/" },
     {
       title: "Pengajuan Surat",
-      url: "#",
+      url: "/letter-application",
       items: [
         {
-          title: "Blog",
-          description: "The latest industry news, updates, and info",
+          title: "Ajukan surat",
+          description: "Isi data untuk mengajukan surat ke kantor kelurahan",
           icon: <Book className="size-5 shrink-0" />,
-          url: "#",
+          url: "/letter-application",
         },
         {
-          title: "Company",
-          description: "Our mission is to innovate and empower the world",
-          icon: <Trees className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Careers",
-          description: "Browse job listing and discover our workspace",
-          icon: <Sunset className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Support",
-          description:
-            "Get in touch with our support team or visit our community forums",
-          icon: <Zap className="size-5 shrink-0" />,
-          url: "#",
+          title: "Pengajuan Saya",
+          description: "Cek status pengajuan surat",
+          icon: <AlertCircle className="size-5 shrink-0" />,
+          url: "/my-letter-applicatio",
         },
       ],
     },
     {
-      title: "Pengajuan Aset",
-      url: "#",
-      items: [
-        {
-          title: "Help Center",
-          description: "Get all the answers you need right here",
-          icon: <Zap className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Contact Us",
-          description: "We are here to help you with any questions you have",
-          icon: <Sunset className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Status",
-          description: "Check the current status of our services and APIs",
-          icon: <Trees className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Terms of Service",
-          description: "Our terms and conditions for using our services",
-          icon: <Book className="size-5 shrink-0" />,
-          url: "#",
-        },
-      ],
+      title: "Peminjaman Aset",
+      url: "/asset-application",
     },
     {
       title: "Absensi",
       url: "/",
     },
+
+    // {
+    //   title: "Pengajuan Surat",
+    //   url: "#",
+    //   items: [
+    //     {
+    //       title: "Blog",
+    //       description: "The latest industry news, updates, and info",
+    //       icon: <Book className="size-5 shrink-0" />,
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Company",
+    //       description: "Our mission is to innovate and empower the world",
+    //       icon: <Trees className="size-5 shrink-0" />,
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Careers",
+    //       description: "Browse job listing and discover our workspace",
+    //       icon: <Sunset className="size-5 shrink-0" />,
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Support",
+    //       description:
+    //         "Get in touch with our support team or visit our community forums",
+    //       icon: <Zap className="size-5 shrink-0" />,
+    //       url: "#",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Pengajuan Aset",
+    //   url: "#",
+    //   items: [
+    //     {
+    //       title: "Help Center",
+    //       description: "Get all the answers you need right here",
+    //       icon: <Zap className="size-5 shrink-0" />,
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Contact Us",
+    //       description: "We are here to help you with any questions you have",
+    //       icon: <Sunset className="size-5 shrink-0" />,
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Status",
+    //       description: "Check the current status of our services and APIs",
+    //       icon: <Trees className="size-5 shrink-0" />,
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Terms of Service",
+    //       description: "Our terms and conditions for using our services",
+    //       icon: <Book className="size-5 shrink-0" />,
+    //       url: "#",
+    //     },
+    //   ],
+    // },
   ],
   auth = {
     login: { title: "Login", url: "#" },
@@ -146,18 +169,17 @@ const Navbar = ({
                 Signal | Sistem Kelurahan Digital
               </span>
             </Link>
-            <div className="flex items-center">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  {menu.map((item) => renderMenuItem(item))}
-                </NavigationMenuList>
-              </NavigationMenu>
-            </div>
           </div>
-          <UserDropdown />
+          <div className="flex items-center gap-4">
+            <NavigationMenu>
+              <NavigationMenuList>
+                {menu.map((item) => renderMenuItem(item))}
+              </NavigationMenuList>
+            </NavigationMenu>
+            <UserDropdown />
+          </div>
         </nav>
 
-        {/* Mobile Menu */}
         <div className="lg:hidden block">
           <div className="flex justify-between items-center">
             <Sheet>
@@ -169,13 +191,11 @@ const Navbar = ({
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <a href={logo.url} className="flex items-center gap-2">
-                      <img
-                        src={logo.src}
-                        className="dark:invert max-h-8"
-                        alt={logo.alt}
-                      />
-                    </a>
+                    <Link href={"/"} className="flex items-center gap-2">
+                      <span className="font-semibold text-lg">
+                        Signal | Sistem Kelurahan Digital
+                      </span>
+                    </Link>
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">
@@ -215,11 +235,11 @@ const renderMenuItem = (item: MenuItem) => {
 
   return (
     <NavigationMenuItem key={item.title}>
-      <NavigationMenuLink
-        href={item.url}
-        className="group inline-flex justify-center items-center bg-background hover:bg-muted px-4 py-2 rounded-md w-max h-10 font-medium text-sm transition-colors hover:text-accent-foreground">
-        {item.title}
-      </NavigationMenuLink>
+      <Link href={item.url}>
+        <div className="group inline-flex justify-center items-center bg-background hover:bg-muted px-4 py-2 rounded-md w-max h-10 font-medium text-sm transition-colors hover:text-accent-foreground">
+          {item.title}
+        </div>
+      </Link>
     </NavigationMenuItem>
   );
 };
@@ -241,15 +261,15 @@ const renderMobileMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <a key={item.title} href={item.url} className="font-semibold text-md">
+    <Link key={item.title} href={item.url} className="font-semibold text-md">
       {item.title}
-    </a>
+    </Link>
   );
 };
 
 const SubMenuLink = ({ item }: { item: MenuItem }) => {
   return (
-    <a
+    <Link
       className="flex flex-row gap-4 hover:bg-muted p-3 rounded-md outline-none min-w-80 no-underline leading-none transition-colors hover:text-accent-foreground select-none"
       href={item.url}>
       <div className="text-foreground">{item.icon}</div>
@@ -261,7 +281,7 @@ const SubMenuLink = ({ item }: { item: MenuItem }) => {
           </p>
         )}
       </div>
-    </a>
+    </Link>
   );
 };
 

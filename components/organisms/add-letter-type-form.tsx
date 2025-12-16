@@ -18,10 +18,7 @@ export default function AddLetterTypeForm() {
   const { mutateAsync, isPending } = useCreateLetterType();
 
   async function onSubmit(values: TLetterType) {
-    console.log(values);
-
     const res = await mutateAsync(values);
-    console.log(res);
   }
 
   return (

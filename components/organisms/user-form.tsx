@@ -26,7 +26,6 @@ export default function UserForm({
   ];
   return (
     <Form {...form}>
-      <pre>{JSON.stringify(form.formState.errors)}</pre>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <InputText
           control={form.control}

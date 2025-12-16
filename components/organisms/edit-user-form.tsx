@@ -25,13 +25,10 @@ export default function EditUserForm({ user }: Props) {
   const { mutateAsync, isPending } = useUpdateUser();
 
   async function onSubmit(values: TUser) {
-    console.log(values);
-
-    const res = await mutateAsync({
+    await mutateAsync({
       id: user.id as number,
       payload: values,
     });
-    console.log(res);
   }
 
   return <UserForm form={form} onSubmit={onSubmit} isLoading={isPending} />;

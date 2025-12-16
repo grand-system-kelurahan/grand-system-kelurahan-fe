@@ -1,69 +1,39 @@
-import { useRouter } from "next/navigation";
-import { useMemo } from "react";
 import { toast } from "sonner";
 
-import { TResident } from "@/schemas/resident-schema";
+import { TLetterApplication } from "@/schemas/letter-application-schema";
 import {
-  createResident,
-  deleteResident,
-  getAllResidents,
-  getResidentById,
-  getResidentByName,
-  searchResidents,
-  updateResident,
-} from "@/services/resident-service";
+  createLetterApplication,
+  deleteLetterApplication,
+  getAllLetterApplications,
+  updateLetterApplication,
+} from "@/services/letter-application-service";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
-import { useResidentStore } from "@/stores/use-resident-store";
+import { useLetterApplicationStore } from "@/stores/use-letter-application-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-const queryKey = "resident";
+const queryKey = "LetterApplication";
 
-const toastText = "Penduduk ";
+const toastText = "Jenis Surat ";
 
-export function useResidents() {
+export function useLetterApplications() {
   return useQuery({
     queryKey: [queryKey],
-    queryFn: getAllResidents,
+    queryFn: getAllLetterApplications,
   });
 }
 
-export function useSearchResidents(searchTerm: string) {
-  return useQuery({
-    queryKey: [queryKey, "search", searchTerm],
-    queryFn: () => searchResidents(searchTerm),
-    enabled: !!searchTerm,
-  });
-}
-
-export function useResidentById(id: number) {
-  return useQuery({
-    queryKey: [queryKey, id],
-    queryFn: () => getResidentById(id),
-    enabled: !!id,
-  });
-}
-
-export function useResidentByName(name: string) {
-  return useQuery({
-    queryKey: [queryKey, name],
-    queryFn: () => getResidentByName(name),
-    enabled: !!name,
-  });
-}
-
-export function useCreateResident() {
+export function useCreateLetterApplication() {
   const queryClient = useQueryClient();
   const { closeDialog } = useIsDialogOpenStore();
-  const router = useRouter();
 
   return useMutation({
-    mutationFn: (payload: TResident) => createResident(payload),
+    mutationFn: (payload: TLetterApplication) =>
+      createLetterApplication(payload),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       closeDialog();
       toast.success(toastText + "berhasil dibuat");
-      router.back();
     },
     onError: (error) => {
       toast.error(toastText + "gagal dibuat");
@@ -73,15 +43,20 @@ export function useCreateResident() {
   });
 }
 
-export function useUpdateResident() {
+export function useUpdateLetterApplication() {
   const queryClient = useQueryClient();
-  const { deleteSelectedData } = useResidentStore();
+  const { deleteSelectedData } = useLetterApplicationStore();
   const { closeDialog } = useIsDialogOpenStore();
-  const router = useRouter();
 
   return useMutation({
-    mutationFn: ({ id, payload }: { id: number; payload: TResident }) =>
-      updateResident({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: number;
+      payload: TLetterApplication;
+    }) =>
+      updateLetterApplication({
         id,
         payload,
       }),
@@ -92,23 +67,23 @@ export function useUpdateResident() {
       });
       toast.success(toastText + "berhasil diperbarui");
       closeDialog();
-      router.back();
       deleteSelectedData();
     },
     onError: (error) => {
       toast.error(toastText + "gagal diperbarui");
       console.error("Error updating data:", error);
+      closeDialog();
     },
   });
 }
 
-export function useDeleteResident() {
+export function useDeleteLetterApplication() {
   const queryClient = useQueryClient();
   const { closeDialog } = useIsDialogOpenStore();
-  const { deleteSelectedData } = useResidentStore();
+  const { deleteSelectedData } = useLetterApplicationStore();
 
   return useMutation({
-    mutationFn: (id: number) => deleteResident(id),
+    mutationFn: (id: number) => deleteLetterApplication(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       toast.success(toastText + "berhasil dihapus");

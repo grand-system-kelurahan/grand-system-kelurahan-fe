@@ -25,8 +25,8 @@ import EditLetterTypeForm from "../organisms/edit-letter-type-form";
 export default function LetterTypesPage() {
   const { dialogType } = useIsDialogOpenStore();
   const { selectedData } = useLetterTypeStore();
-  const { data, isLoading, refetch } = useLetterTypes();
   const { openDialog } = useIsDialogOpenStore();
+  const { data, isLoading, refetch } = useLetterTypes();
 
   const letterTypesData: TLetterType[] = useMemo(
     () => data?.data?.letterType || [],

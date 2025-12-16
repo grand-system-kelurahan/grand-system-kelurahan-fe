@@ -34,7 +34,6 @@ export const updateAsset = async ({
     return parsed.error;
   }
   const { data } = await api.put(`/${ENDPOINT}/${id}`, parsed.data);
-  console.log(data);
 
   return data;
 };

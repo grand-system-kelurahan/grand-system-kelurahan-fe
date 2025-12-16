@@ -52,6 +52,16 @@ export const sidebarData = [
     ],
   },
   {
+    title: "Pengajuan Surat",
+    url: "/admin/dashboard/letter-applications",
+    items: [
+      {
+        title: "Pengajuan Surat",
+        url: "/admin/dashboard/letter-applications",
+      },
+    ],
+  },
+  {
     title: "Peminjaman Aset",
     url: "/admin/dashboard/asset-loans",
     items: [

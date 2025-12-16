@@ -8,6 +8,18 @@ export const getAllResidents = async () => {
   return data;
 };
 
+export const searchResidents = async (search: string) => {
+  const params = new URLSearchParams();
+
+  if (search) params.append("search", search);
+
+  const queryString = params.toString();
+  const url = queryString ? `/${ENDPOINT}?${queryString}` : `/${ENDPOINT}`;
+
+  const { data } = await api.get(url);
+  return data;
+};
+
 export const getResidentById = async (id: number) => {
   const { data } = await api.get(`/${ENDPOINT}/${id}`);
   return data;
