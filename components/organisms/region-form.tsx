@@ -6,17 +6,13 @@ import { TRegion } from "@/schemas/region-schema";
 import ButtonSave from "../atoms/button-save";
 import { InputText } from "../molecules/input-text";
 
-interface LingkunganFormProps {
+interface Props {
   form: UseFormReturn<TRegion>;
   onSubmit: (values: TRegion) => void;
   isLoading: boolean;
 }
 
-export default function RegionForm({
-  form,
-  isLoading,
-  onSubmit,
-}: LingkunganFormProps) {
+export default function RegionForm({ form, isLoading, onSubmit }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

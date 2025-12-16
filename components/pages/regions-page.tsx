@@ -37,9 +37,7 @@ export default function RegionsPage() {
           <Heading1 text="Data Lingkungan" />
           <Description text="Data lingkungan yang tersedia" />
         </div>
-        <Button
-          className="flex justify-between items-center gap-2"
-          onClick={() => openDialog("add")}>
+        <Button onClick={() => openDialog("add")}>
           <PlusCircle />
           Tambah Data Lingkungan
         </Button>

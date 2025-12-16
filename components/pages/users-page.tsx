@@ -37,7 +37,7 @@ export default function UsersPage() {
           <Description text="Data pengguna yang tersedia" />
         </div>
         <Link href={`${pathSegments.raw}/add`}>
-          <Button className="flex justify-between items-center gap-2">
+          <Button>
             <PlusCircle />
             Tambah Data Pengguna
           </Button>
@@ -55,7 +55,7 @@ export default function UsersPage() {
         <div className="space-y-4">
           <StatCard
             title="Total Pengguna"
-            value={userData.length}
+            value={userData.length || 0}
             description="Total Pengguna di Kelurahan"
             icon={Users}
           />

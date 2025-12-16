@@ -39,7 +39,7 @@ export default function FamilyCardsPage() {
           <Description text="Data kartu keluarga yang tersedia" />
         </div>
         <Link href={`${pathSegments.raw}/add`}>
-          <Button className="flex justify-between items-center gap-2">
+          <Button>
             <PlusCircle />
             Tambah Data Kartu Keluarga
           </Button>
@@ -57,7 +57,7 @@ export default function FamilyCardsPage() {
         <div className="space-y-4">
           <StatCard
             title="Total Kartu Keluarga"
-            value={familyCardsData.length}
+            value={familyCardsData.length || 0}
             description="Total kartu keluarga di Kelurahan"
             icon={Users}
           />
