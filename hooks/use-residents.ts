@@ -1,5 +1,4 @@
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
 import { toast } from "sonner";
 
 import { TResident } from "@/schemas/resident-schema";
@@ -17,7 +16,6 @@ import { useResidentStore } from "@/stores/use-resident-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const queryKey = "resident";
-
 const toastText = "Penduduk ";
 
 export function useResidents() {
@@ -58,7 +56,6 @@ export function useCreateResident() {
 
   return useMutation({
     mutationFn: (payload: TResident) => createResident(payload),
-
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       closeDialog();
@@ -81,15 +78,10 @@ export function useUpdateResident() {
 
   return useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: TResident }) =>
-      updateResident({
-        id,
-        payload,
-      }),
+      updateResident({ id, payload }),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
-      queryClient.invalidateQueries({
-        queryKey: [queryKey, variables.id],
-      });
+      queryClient.invalidateQueries({ queryKey: [queryKey, variables.id] });
       toast.success(toastText + "berhasil diperbarui");
       closeDialog();
       router.back();
@@ -98,6 +90,7 @@ export function useUpdateResident() {
     onError: (error) => {
       toast.error(toastText + "gagal diperbarui");
       console.error("Error updating data:", error);
+      closeDialog();
     },
   });
 }
