@@ -66,7 +66,7 @@ export default function SheetAddResientToFamilyCard({ familyCardId }: Props) {
   const { data, isLoading, error } = useResidentByName(searchQuery);
 
   const residentsData: TResidentWithRelation[] = useMemo(
-    () => data?.data.residents || [],
+    () => data?.data?.residents || [],
     [data]
   );
 

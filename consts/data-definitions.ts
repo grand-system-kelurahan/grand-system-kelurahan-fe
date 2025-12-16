@@ -22,7 +22,7 @@ export const Agama: TAgama[] = [
   "Tidak Tau",
 ];
 
-export const JenisKelamin: TJenisKelamin[] = ["Laki-laki", "Perempuan"];
+export const JenisKelamin: TJenisKelamin[] = ["male", "female"];
 
 export const Pendidikan: TPendidikan[] = [
   "Tidak / Belum Sekolah",

@@ -10,7 +10,7 @@ export const FormResidentSchema = z
       .string()
       .min(2, { message: "NIK harus diisi minimal 2 karakter" }),
     name: z.string().min(2, { message: "Nama harus diisi minimal 2 karakter" }),
-    gender: z.enum(["Laki-laki", "Perempuan", "Tidak Tau"], {
+    gender: z.enum(["male", "female"], {
       message: "Jenis kelamin harus dipilih (Laki-laki atau Perempuan)",
     }),
     place_of_birth: z
