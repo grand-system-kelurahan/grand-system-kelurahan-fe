@@ -8,6 +8,10 @@ type TAction =
   | "rejected"
   | "edit-relationship"
   | "delete-relationship"
+  | "approve"
+  | "return"
+  | "reject"
+  | "view"
   | null;
 
 type useIsDialogOpenStoreType = {
