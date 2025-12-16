@@ -93,6 +93,10 @@ export default function AssetDetailPage({ id }: Props) {
               <TableCell>{assetsData.available_stock}</TableCell>
             </TableRow>
             <TableRow>
+              <TableCell className="font-medium">Stok Dipinjam</TableCell>
+              <TableCell>{assetsData.borrowed_stock}</TableCell>
+            </TableRow>
+            <TableRow>
               <TableCell className="font-medium">Status</TableCell>
               <TableCell>{assetsData.asset_status}</TableCell>
             </TableRow>

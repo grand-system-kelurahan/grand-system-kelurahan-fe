@@ -43,7 +43,6 @@ export default function EditAssetForm({ asset }: Props) {
       form={form}
       onSubmit={onSubmit}
       isLoading={isPending}
-      type="edit"
     />
   );
 }

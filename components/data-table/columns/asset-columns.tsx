@@ -80,6 +80,14 @@ export const assetColumns: ColumnDef<TAssetWithRelation>[] = [
     },
   },
   {
+    accessorKey: "borrowed_stock",
+    header: "Stok Dipinjam",
+    cell: ({ row }) => {
+      const asset = row.original;
+      return <p className="uppercase">{asset.borrowed_stock}</p>;
+    },
+  },
+  {
     accessorKey: "asset_status",
     header: "Status",
     cell: ({ row }) => {
