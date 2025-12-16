@@ -76,7 +76,7 @@ export function useUpdateAsset() {
       router.back();
       deleteSelectedData();
     },
-    onError: (error: any) => {
+    onError: (error) => {
       handleApiError(error, toastText + " gagal diperbarui");
     },
   });
