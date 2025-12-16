@@ -8,6 +8,32 @@ import { TResident, TResidentWithRelation } from "@/schemas/resident-schema";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TSelectOption } from "@/types/types";
 
+// Laravel: errors = { field: string[] }
+
+export function handleApiError(
+  error: any,
+  defaultMessage: string = "gagal diperbarui"
+) {
+  console.error("api error:", error);
+
+  if (error.response?.status === 422) {
+    const validationErrors: Record<string, string[]> =
+      error.response.data?.errors || {};
+
+    const messages = Object.values(validationErrors)
+      .flat() 
+      .filter(Boolean)
+      .join(", ");
+
+    toast.error(messages || defaultMessage);
+    return;
+  }
+
+  const errorMessage = error.response?.data?.message || defaultMessage;
+
+  toast.error(errorMessage);
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

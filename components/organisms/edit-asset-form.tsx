@@ -18,7 +18,6 @@ export default function EditAssetForm({ asset }: Props) {
       asset_name: asset.asset_name,
       asset_status: asset.asset_status,
       asset_type: asset.asset_type,
-      available_stock: asset.available_stock,
       description: asset.description,
       id: asset.id,
       location: asset.location,
