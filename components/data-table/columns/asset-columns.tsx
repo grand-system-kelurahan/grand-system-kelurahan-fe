@@ -68,7 +68,7 @@ export const assetColumns: ColumnDef<TAssetWithRelation>[] = [
     header: "Total Stok",
     cell: ({ row }) => {
       const asset = row.original;
-      return <p className="uppercase">{asset.total_stock || "-"}</p>;
+      return <p className="uppercase">{asset.total_stock}</p>;
     },
   },
   {

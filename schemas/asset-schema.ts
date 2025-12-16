@@ -13,6 +13,8 @@ export const FormAssetSchema = z
     total_stock: z.number(),
     location: z.string(),
     asset_status: z.enum(["active", "inactive"]),
+    available_stock: z.number().optional(),
+    borrowed_stock: z.number().optional(),
   })
   .merge(BaseSchema);
 

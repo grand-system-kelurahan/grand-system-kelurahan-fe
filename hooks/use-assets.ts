@@ -12,6 +12,7 @@ import {
 import { useAssetStore } from "@/stores/use-asset-store";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { handleApiError } from "@/lib/utils";
 
 const queryKey = "assets";
 
@@ -47,8 +48,7 @@ export function useCreateAsset() {
       router.back();
     },
     onError: (error) => {
-      toast.error(toastText + "gagal dibuat");
-      console.error("Error creating data:", error);
+      handleApiError(error, toastText + "gagal dibuat");
       closeDialog();
     },
   });
@@ -77,8 +77,7 @@ export function useUpdateAsset() {
       deleteSelectedData();
     },
     onError: (error) => {
-      toast.error(toastText + "gagal diperbarui");
-      console.error("Error updating data:", error);
+      handleApiError(error, toastText + " gagal diperbarui");
     },
   });
 }
