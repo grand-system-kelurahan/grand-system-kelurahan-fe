@@ -29,14 +29,14 @@ import { TResident } from "@/schemas/resident-schema";
 import { TRelationship } from "@/types/types";
 
 interface Props {
-  resident: TResident;
   relationship: TRelationship;
+  familyCardId: number;
   familyMember: TFamilyMember;
 }
 
 export default function DialogEditRelationship({
-  resident,
   relationship,
+  familyCardId,
   familyMember,
 }: Props) {
   const [statusHubungan, setRelationship] =
@@ -46,14 +46,12 @@ export default function DialogEditRelationship({
 
   async function onSubmit() {
     const dataSubmit: TFamilyMember = {
-      id: familyMember.id,
+      ...familyMember,
       relationship: statusHubungan,
-      resident_id: resident.id,
-      family_card_id: familyMember.family_card_id,
     };
 
     mutate({
-      familyCardId: familyMember.family_card_id as number,
+      familyCardId: familyCardId,
       payload: dataSubmit,
     });
   }
@@ -70,8 +68,7 @@ export default function DialogEditRelationship({
               Edit Status Hubungan dalam Keluarga
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Silahkan pilih status hubungan yang sesuai untuk anggota bernama{" "}
-              <span className="font-bold">{resident.name}</span>
+              Silahkan pilih status hubungan yang sesuai untuk anggota bernama
             </AlertDialogDescription>
           </AlertDialogHeader>
           <Select

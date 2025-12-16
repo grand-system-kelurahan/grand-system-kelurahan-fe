@@ -19,7 +19,7 @@ interface Props {
 
 export default function FamilyCardDetailPage({ id }: Props) {
   const { data, isLoading } = useFamilyCardById(id);
-  const kartuKeluargaData: TFamilyCardWithRelation = useMemo(
+  const familyCardData: TFamilyCardWithRelation = useMemo(
     () => data?.data?.family_card,
     [data]
   );
@@ -42,8 +42,8 @@ export default function FamilyCardDetailPage({ id }: Props) {
 
       {isLoading ? (
         <TableSkeleton columnCount={3} rowCount={6} />
-      ) : kartuKeluargaData ? (
-        <FamilyCardTable familyCardData={kartuKeluargaData} />
+      ) : familyCardData ? (
+        <FamilyCardTable familyCardData={familyCardData} />
       ) : (
         <EmptyOutline
           title="Data Tidak Ditemukan"

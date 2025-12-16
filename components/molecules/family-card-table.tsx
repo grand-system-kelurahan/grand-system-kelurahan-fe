@@ -41,7 +41,6 @@ export default function FamilyCardTable({
   includeAction = true,
 }: Props) {
   const pathSegments = usePathSegments();
-  const { openDialog } = useIsDialogOpenStore();
 
   return (
     <div>
@@ -168,6 +167,7 @@ export default function FamilyCardTable({
             />
           )}
         </div>
+
         <Table>
           <TableCaption>
             {familyCardData?.family_members?.length == 0
@@ -221,11 +221,11 @@ export default function FamilyCardTable({
                       <span>{familyMember.relationship}</span>
                       {includeAction && (
                         <DialogEditRelationship
-                          familyMember={familyMember}
                           relationship={
                             familyMember.relationship as TRelationship
                           }
-                          resident={resident}
+                          familyCardId={familyCardData.id as number}
+                          familyMember={familyMember}
                         />
                       )}
                     </TableCell>

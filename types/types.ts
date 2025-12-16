@@ -4,7 +4,7 @@ export type TSelectOption = {
 };
 
 export type TRequestStatus = "valid" | "invalid" | "rejected";
-export type TJenisKelamin = "Laki-laki" | "Perempuan" | "Tidak Tau";
+export type TJenisKelamin = "male" | "female";
 
 export type TRelationship =
   | "Kepala Keluarga"

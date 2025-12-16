@@ -12,10 +12,10 @@ export default function AddRegionForm() {
     defaultValues: {},
   });
 
-  const { mutate, isPending } = useCreateRegion();
+  const { mutateAsync, isPending } = useCreateRegion();
 
   async function onSubmit(values: TRegion) {
-    mutate(values);
+    await mutateAsync(values);
   }
 
   return <RegionForm form={form} onSubmit={onSubmit} isLoading={isPending} />;
