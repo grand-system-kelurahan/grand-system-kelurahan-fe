@@ -16,7 +16,6 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { VersionSwitcher } from "@/components/version-switcher";
 import { sidebarData } from "@/consts/sidebar-data";
 import { usePathSegments } from "@/hooks/use-path-segment";
 
@@ -31,11 +30,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        {/* <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        />
-        <SearchForm /> */}
         <div className="p-2">
           <p className="font-bold text-xl">Signal</p>
           <p className="text-muted-foreground text-sm">

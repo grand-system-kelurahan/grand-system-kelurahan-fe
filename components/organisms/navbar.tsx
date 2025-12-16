@@ -26,6 +26,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+import UserDropdown from "../molecules/user-dropdown";
+
 interface MenuItem {
   title: string;
   url: string;
@@ -137,10 +139,8 @@ const Navbar = ({
   return (
     <section className="px-4 md:px-16 lg:px-24 py-4">
       <div className="container">
-        {/* Desktop Menu */}
         <nav className="hidden lg:flex justify-between items-center">
           <div className="flex items-center gap-6">
-            {/* Logo */}
             <Link href={"/"} className="flex items-center gap-2">
               <span className="font-semibold text-lg">
                 Signal | Sistem Kelurahan Digital
@@ -154,29 +154,12 @@ const Navbar = ({
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2">
-            <Link href={"/login"}>
-              <Button variant="outline" size="sm">
-                Login
-              </Button>
-            </Link>
-            <Link href={"/signup"}>
-              <Button size="sm">Daftar</Button>
-            </Link>
-          </div>
+          <UserDropdown />
         </nav>
 
         {/* Mobile Menu */}
         <div className="lg:hidden block">
           <div className="flex justify-between items-center">
-            {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
-              <img
-                src={logo.src}
-                className="dark:invert max-h-8"
-                alt={logo.alt}
-              />
-            </a>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -203,14 +186,7 @@ const Navbar = ({
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
 
-                  <div className="flex flex-col gap-3">
-                    <Link href={"/login"}>
-                      <Button variant="outline">Login</Button>
-                    </Link>
-                    <Link href={"/signup"}>
-                      <Button>Daftar</Button>
-                    </Link>
-                  </div>
+                  <UserDropdown />
                 </div>
               </SheetContent>
             </Sheet>

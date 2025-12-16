@@ -22,7 +22,7 @@ export default function SignupPage() {
           </div>
         </div>
       </div>
-      <div className="hidden lg:block max-h-screen overflow-y-hidden">
+      <div className="hidden lg:block max-h-screen">
         <Image
           src="/images/background.png"
           alt="Image"

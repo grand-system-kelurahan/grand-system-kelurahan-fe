@@ -6,6 +6,11 @@ import {
   TRegister,
 } from "@/schemas/auth-schema";
 
+export const checkUserLogin = async () => {
+  const { data } = await api.get("/me");
+  return data;
+};
+
 export const register = async (payload: TRegister) => {
   const parsed = FormRegisterSchema.parse(payload);
   const { data } = await api.post("/register", parsed);
@@ -15,5 +20,10 @@ export const register = async (payload: TRegister) => {
 export const login = async (payload: TLogin) => {
   const parsed = FormLoginSchema.parse(payload);
   const { data } = await api.post("/login", parsed);
+  return data;
+};
+
+export const logout = async () => {
+  const { data } = await api.post("/logout");
   return data;
 };

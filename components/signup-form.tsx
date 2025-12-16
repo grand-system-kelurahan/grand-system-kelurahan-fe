@@ -2,23 +2,27 @@
 
 import { LogIn } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { useRegister } from "@/hooks/use-login";
+import { useRegister } from "@/hooks/use-auth";
 import { FormRegisterSchema, TRegister } from "@/schemas/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import LoadingIcon from "./atoms/loading-icon";
 import { InputText } from "./molecules/input-text";
 import { Form } from "./ui/form";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const { isPending, mutateAsync } = useRegister();
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const form = useForm<TRegister>({
     resolver: zodResolver(FormRegisterSchema),
@@ -26,6 +30,15 @@ export function SignupForm({
   });
 
   async function onSubmit(values: TRegister) {
+    if (values.password != passwordConfirmation) {
+      toast.error("Password tidak sesuai");
+      return;
+    }
+
+    if (values.password.length < 8) {
+      toast.error("Password minimal 8 karakter");
+      return;
+    }
     try {
       const response = await mutateAsync({
         name: values.name,
@@ -87,6 +100,18 @@ export function SignupForm({
             isDisabled={isPending}
             type="password"
           />
+          <div className="space-y-2">
+            <div className="flex items-center gap-1 w-full">
+              <Label>Konfirmasi Password</Label>
+              <p className="text-red-500">*</p>
+            </div>
+            <Input
+              type="password"
+              value={passwordConfirmation}
+              placeholder="Konfirmasi password"
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+            />
+          </div>
 
           <Button type="submit" className="w-full" disabled={isPending}>
             {isPending ? (

@@ -1,7 +1,8 @@
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { TLogin, TRegister } from "@/schemas/auth-schema";
-import { login, register } from "@/services/auth-service";
+import { login, logout, register } from "@/services/auth-service";
 import { useMutation } from "@tanstack/react-query";
 
 export function useLogin() {
@@ -18,13 +19,30 @@ export function useLogin() {
 }
 
 export function useRegister() {
+  const router = useRouter();
   return useMutation({
     mutationFn: (payload: TRegister) => register(payload),
     onSuccess: (_, variables) => {
       toast.success("Berhasil membuat akun");
+      router.push("/login");
     },
     onError: (error) => {
       toast.error("Gagal membuat akun");
+      console.error("Error updating data:", error);
+    },
+  });
+}
+
+export function useLogout() {
+  const router = useRouter();
+  return useMutation({
+    mutationFn: () => logout(),
+    onSuccess: (_, variables) => {
+      toast.success("Berhasil keluar");
+      router.push("/login");
+    },
+    onError: (error) => {
+      toast.error("Gagal keluar");
       console.error("Error updating data:", error);
     },
   });

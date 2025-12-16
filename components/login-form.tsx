@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { useLogin } from "@/hooks/use-login";
+import { useLogin } from "@/hooks/use-auth";
 import { FormLoginSchema, TLogin } from "@/schemas/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 

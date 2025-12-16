@@ -28,6 +28,16 @@ export const sidebarData = [
     ],
   },
   {
+    title: "Pengguna",
+    url: "/admin/dashboard/users",
+    items: [
+      {
+        title: "Pengguna",
+        url: "/admin/dashboard/users",
+      },
+    ],
+  },
+  {
     title: "Kependudukan",
     url: "/admin/dashboard/residents",
     items: [
