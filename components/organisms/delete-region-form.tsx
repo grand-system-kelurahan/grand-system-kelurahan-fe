@@ -7,7 +7,7 @@ interface Props {
   region: TRegion;
 }
 
-export default function DeleteRegionRorm({ region }: Props) {
+export default function DeleteRegionForm({ region }: Props) {
   const { isPending, mutateAsync } = useDeleteRegion();
 
   async function onSubmit() {

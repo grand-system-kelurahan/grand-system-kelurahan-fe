@@ -8,7 +8,7 @@ import { Description, Heading1 } from "@/components/atoms/typography";
 import { Button } from "@/components/ui/button";
 import { usePathSegments } from "@/hooks/use-path-segment";
 import { useResidents } from "@/hooks/use-residents";
-import { TResident } from "@/schemas/resident-schema";
+import { TResidentWithRelation } from "@/schemas/resident-schema";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 import { useResidentStore } from "@/stores/use-resident-store";
 
@@ -18,7 +18,7 @@ import CodeEditorDialog from "../molecules/code-editor-dialog";
 import DialogTemplate from "../molecules/dialog-template";
 import { StatCard } from "../molecules/stat-card";
 import TableSkeleton from "../molecules/table-skeleton";
-import DeleteResidentRorm from "../organisms/delete-resident-form";
+import DeleteResidentForm from "../organisms/delete-resident-form";
 
 export default function ResidentsPage() {
   const pathSegments = usePathSegments();
@@ -26,7 +26,7 @@ export default function ResidentsPage() {
   const { selectedData } = useResidentStore();
   const { data, isLoading, refetch } = useResidents();
 
-  const residentsData: TResident[] = useMemo(
+  const residentsData: TResidentWithRelation[] = useMemo(
     () => data?.data?.residents || [],
     [data]
   );
@@ -74,7 +74,7 @@ export default function ResidentsPage() {
         <DialogTemplate
           title="Hapus Data Penduduk"
           description={`Aksi ini akan menghapus data penduduk ${selectedData.name}. Apakah anda yakin?`}>
-          <DeleteResidentRorm resident={selectedData} />
+          <DeleteResidentForm resident={selectedData} />
         </DialogTemplate>
       )}
     </div>

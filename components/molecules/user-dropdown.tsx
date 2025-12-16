@@ -34,17 +34,16 @@ export default function UserDropdown() {
   const role = userData?.role;
   const urlDashboard =
     role == "admin"
-      ? `/dashboard/admin`
+      ? `/admin/dashboard`
       : role == "pegawai"
-      ? `/dashboard/pegawai`
+      ? `/pegawai/dashboard`
       : `/`;
 
   const urlProfile = urlDashboard + "/profile";
 
   const logout = async () => {
     try {
-      const response = await mutateAsync();
-      console.log(response);
+      await mutateAsync();
     } catch (error) {
       toast.error("Gagal logout");
       console.error("Error:", error);

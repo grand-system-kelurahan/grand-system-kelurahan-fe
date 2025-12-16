@@ -6,42 +6,40 @@ import { useMemo } from "react";
 
 import { Description, Heading1 } from "@/components/atoms/typography";
 import { Button } from "@/components/ui/button";
-import { useAssets } from "@/hooks/use-assets";
 import { usePathSegments } from "@/hooks/use-path-segment";
-import { TAssetWithRelation } from "@/schemas/asset-schema";
-import { useAssetStore } from "@/stores/use-asset-store";
+import { useUsers } from "@/hooks/use-users";
+import { TUser } from "@/schemas/user-schema";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
+import { useUserStore } from "@/stores/use-user-store";
 
-import { assetColumns } from "../data-table/columns/asset-columns";
+import { userColumns } from "../data-table/columns/user-columns";
 import { DataTable } from "../data-table/data-table";
 import CodeEditorDialog from "../molecules/code-editor-dialog";
 import DialogTemplate from "../molecules/dialog-template";
 import { StatCard } from "../molecules/stat-card";
 import TableSkeleton from "../molecules/table-skeleton";
-import DeleteAssetForm from "../organisms/delete-asset-form";
+import DeleteUserForm from "../organisms/delete-user-form";
+import EditUserForm from "../organisms/edit-user-form";
 
-export default function AssetsPage() {
+export default function UsersPage() {
   const pathSegments = usePathSegments();
   const { dialogType } = useIsDialogOpenStore();
-  const { selectedData } = useAssetStore();
-  const { data, isLoading, refetch } = useAssets();
+  const { selectedData } = useUserStore();
+  const { data, isLoading, refetch } = useUsers();
 
-  const assetsData: TAssetWithRelation[] = useMemo(
-    () => data?.data || [],
-    [data]
-  );
+  const userData: TUser[] = useMemo(() => data?.data?.users || [], [data]);
 
   return (
     <div>
       <div className="flex justify-between items-center">
         <div>
-          <Heading1 text="Data Aset" />
-          <Description text="Data aset yang tersedia" />
+          <Heading1 text="Data Pengguna" />
+          <Description text="Data pengguna yang tersedia" />
         </div>
         <Link href={`${pathSegments.raw}/add`}>
           <Button className="flex justify-between items-center gap-2">
             <PlusCircle />
-            Tambah Data Aset
+            Tambah Data Pengguna
           </Button>
         </Link>
       </div>
@@ -56,24 +54,32 @@ export default function AssetsPage() {
       ) : (
         <div className="space-y-4">
           <StatCard
-            title="Total Aset"
-            value={assetsData.length}
-            description="Total Aset di Kelurahan"
+            title="Total Pengguna"
+            value={userData.length}
+            description="Total Pengguna di Kelurahan"
             icon={Users}
           />
           <DataTable
-            columns={assetColumns}
-            data={assetsData}
-            filteringKey="asset_name"
+            columns={userColumns}
+            data={userData}
+            filteringKey="name"
             refetch={refetch}
           />
         </div>
       )}
+
       {dialogType == "delete" && selectedData && (
         <DialogTemplate
-          title="Hapus Data Aset"
-          description={`Aksi ini akan menghapus data aset ${selectedData.asset_name}. Apakah anda yakin?`}>
-          <DeleteAssetForm asset={selectedData} />
+          title="Hapus Data Pengguna"
+          description={`Aksi ini akan menghapus data pengguna ${selectedData.name}. Apakah anda yakin?`}>
+          <DeleteUserForm user={selectedData} />
+        </DialogTemplate>
+      )}
+      {dialogType == "edit" && selectedData && (
+        <DialogTemplate
+          title="Perbarui Data Pengguna"
+          description={`Aksi ini akan mengperbarui data pengguna ${selectedData.name}. `}>
+          <EditUserForm user={selectedData} />
         </DialogTemplate>
       )}
     </div>

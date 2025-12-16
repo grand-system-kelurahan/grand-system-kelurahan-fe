@@ -7,7 +7,7 @@ interface Props {
   asset: TAsset;
 }
 
-export default function DeleteAssetRorm({ asset }: Props) {
+export default function DeleteAssetForm({ asset }: Props) {
   const { isPending, mutateAsync } = useDeleteAsset();
 
   async function onSubmit() {

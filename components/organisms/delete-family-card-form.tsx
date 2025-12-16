@@ -7,7 +7,7 @@ interface Props {
   familyCard: TFamilyCard;
 }
 
-export default function DeleteFamilyCardRorm({ familyCard }: Props) {
+export default function DeleteFamilyCardForm({ familyCard }: Props) {
   const { isPending, mutateAsync } = useDeleteFamilyCard();
 
   async function onSubmit() {

@@ -1,6 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import BreadcrumbComponent from "@/components/molecules/breadcrumb-component";
 import { ModeToggle } from "@/components/molecules/mode-toggle";
+import UserDropdown from "@/components/molecules/user-dropdown";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -26,7 +27,10 @@ export default function Layout({
             />
             <BreadcrumbComponent />
           </div>
-          <ModeToggle />
+          <div className="flex justify-between gap-2">
+            <UserDropdown />
+            <ModeToggle />
+          </div>
         </header>
         <div className="p-4 md:p-8">{children}</div>
       </SidebarInset>
