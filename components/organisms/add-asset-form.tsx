@@ -23,7 +23,6 @@ export default function AddAssetForm() {
       form={form}
       onSubmit={onSubmit}
       isLoading={isPending}
-      type="add"
     />
   );
 }
