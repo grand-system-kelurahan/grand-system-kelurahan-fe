@@ -18,7 +18,7 @@ import CodeEditorDialog from "../molecules/code-editor-dialog";
 import DialogTemplate from "../molecules/dialog-template";
 import { StatCard } from "../molecules/stat-card";
 import TableSkeleton from "../molecules/table-skeleton";
-import DeleteFamilyCardRorm from "../organisms/delete-family-card-form";
+import DeleteFamilyCardForm from "../organisms/delete-family-card-form";
 
 export default function FamilyCardsPage() {
   const pathSegments = usePathSegments();
@@ -73,7 +73,7 @@ export default function FamilyCardsPage() {
         <DialogTemplate
           title="Hapus Data Penduduk"
           description={`Aksi ini akan menghapus data penduduk ${selectedData.head_of_family_name}. Apakah anda yakin?`}>
-          <DeleteFamilyCardRorm familyCard={selectedData} />
+          <DeleteFamilyCardForm familyCard={selectedData} />
         </DialogTemplate>
       )}
     </div>

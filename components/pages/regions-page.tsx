@@ -17,7 +17,7 @@ import DialogTemplate from "../molecules/dialog-template";
 import { StatCard } from "../molecules/stat-card";
 import TableSkeleton from "../molecules/table-skeleton";
 import AddRegionForm from "../organisms/add-region-form";
-import DeleteRegionRorm from "../organisms/delete-region-form";
+import DeleteRegionForm from "../organisms/delete-region-form";
 import EditRegionForm from "../organisms/edit-region-form";
 
 export default function RegionsPage() {
@@ -89,7 +89,7 @@ export default function RegionsPage() {
         <DialogTemplate
           title="Hapus Data Lingkungan"
           description={`Aksi ini akan menghapus data lingkungan ${selectedData.name} secara permanen. Apakah Anda yakin?`}>
-          <DeleteRegionRorm region={selectedData} />
+          <DeleteRegionForm region={selectedData} />
         </DialogTemplate>
       )}
     </div>

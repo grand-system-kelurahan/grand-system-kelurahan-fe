@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 
-import ResidentsPage from "@/components/pages/residents-page";
+import UsersPage from "@/components/pages/users-page";
 
 export const metadata: Metadata = {
-  title: "Penduduk | Signal",
+  title: "Pengguna | Signal",
 };
 
 export default function Page() {
-  return <ResidentsPage />;
+  return <UsersPage />;
 }

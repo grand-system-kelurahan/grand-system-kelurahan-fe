@@ -7,7 +7,7 @@ interface Props {
   resident: TResident;
 }
 
-export default function DeleteResidentRorm({ resident }: Props) {
+export default function DeleteResidentForm({ resident }: Props) {
   const { isPending, mutateAsync } = useDeleteResident();
 
   async function onSubmit() {
