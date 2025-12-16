@@ -18,5 +18,12 @@ export default function AddAssetForm() {
     mutate(values);
   }
 
-  return <AssetForm form={form} onSubmit={onSubmit} isLoading={isPending} />;
+  return (
+    <AssetForm
+      form={form}
+      onSubmit={onSubmit}
+      isLoading={isPending}
+      type="add"
+    />
+  );
 }

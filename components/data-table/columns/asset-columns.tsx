@@ -76,7 +76,7 @@ export const assetColumns: ColumnDef<TAssetWithRelation>[] = [
     header: "Stok Tersedia",
     cell: ({ row }) => {
       const asset = row.original;
-      return <p className="uppercase">{asset.available_stock || "-"}</p>;
+      return <p className="uppercase">{asset.available_stock}</p>;
     },
   },
   {

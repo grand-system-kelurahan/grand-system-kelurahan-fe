@@ -38,5 +38,12 @@ export default function EditAssetForm({ asset }: Props) {
     console.log(res);
   }
 
-  return <AssetForm form={form} onSubmit={onSubmit} isLoading={isPending} />;
+  return (
+    <AssetForm
+      form={form}
+      onSubmit={onSubmit}
+      isLoading={isPending}
+      type="edit"
+    />
+  );
 }

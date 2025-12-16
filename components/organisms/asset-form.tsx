@@ -10,17 +10,19 @@ import { InputSelect } from "../molecules/input-select";
 import { InputText } from "../molecules/input-text";
 import { InputTextarea } from "../molecules/input-text-area";
 
-interface LingkunganFormProps {
+interface AssetFormProps {
   form: UseFormReturn<TAsset>;
   onSubmit: (values: TAsset) => void;
   isLoading: boolean;
+  type: "add" | "edit";
 }
 
 export default function AssetForm({
   form,
   isLoading,
   onSubmit,
-}: LingkunganFormProps) {
+  type,
+}: AssetFormProps) {
   const assetTypeOptions: TSelectOption[] = [
     {
       label: "Barang",
@@ -90,13 +92,15 @@ export default function AssetForm({
             placeholder="Total Stok"
             isDisabled={isLoading}
           />
-          <InputNumber
-            control={form.control}
-            name="available_stock"
-            label="Stok Tersedia"
-            placeholder="Stok tersedia"
-            isDisabled={isLoading}
-          />
+          {type !== "edit" && (
+            <InputNumber
+              control={form.control}
+              name="available_stock"
+              label="Stok Tersedia"
+              placeholder="Stok tersedia"
+              isDisabled={isLoading}
+            />
+          )}
           <InputSelect
             control={form.control}
             name="asset_status"
