@@ -39,7 +39,7 @@ export default function ResidentsPage() {
           <Description text="Data penduduk yang tersedia" />
         </div>
         <Link href={`${pathSegments.raw}/add`}>
-          <Button className="flex justify-between items-center gap-2">
+          <Button>
             <PlusCircle />
             Tambah Data Penduduk
           </Button>
@@ -57,7 +57,7 @@ export default function ResidentsPage() {
         <div className="space-y-4">
           <StatCard
             title="Total Penduduk"
-            value={residentsData.length}
+            value={residentsData.length || 0}
             description="Total penduduk di Kelurahan"
             icon={Users}
           />

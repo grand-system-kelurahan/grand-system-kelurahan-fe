@@ -39,7 +39,7 @@ export default function AssetsPage() {
           <Description text="Data aset yang tersedia" />
         </div>
         <Link href={`${pathSegments.raw}/add`}>
-          <Button className="flex justify-between items-center gap-2">
+          <Button>
             <PlusCircle />
             Tambah Data Aset
           </Button>
@@ -57,7 +57,7 @@ export default function AssetsPage() {
         <div className="space-y-4">
           <StatCard
             title="Total Aset"
-            value={assetsData.length}
+            value={assetsData.length || 0}
             description="Total Aset di Kelurahan"
             icon={Users}
           />
