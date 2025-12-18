@@ -34,10 +34,7 @@ interface Props {
 
 export default function ResidentForm({ form, isLoading, onSubmit }: Props) {
   const { data, isLoading: isLoadingLingkungan } = useRegions();
-  const regionsData: TRegion[] = useMemo(
-    () => data?.data?.regions || [],
-    [data]
-  );
+  const regionsData: TRegion[] = useMemo(() => data?.data || [], [data]);
   const regionOptions = mapToOptions(regionsData || [], "id", "name");
   const jenisKelaminOptions: TSelectOption[] = JenisKelamin.map((item) => ({
     value: item,

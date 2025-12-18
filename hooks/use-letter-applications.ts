@@ -5,11 +5,12 @@ import { toast } from "sonner";
 import { TLetterApplication } from "@/schemas/letter-application-schema";
 import { TUser } from "@/schemas/user-schema";
 import {
+  approveLetterApplication,
   createLetterApplication,
   deleteLetterApplication,
   getAllLetterApplications,
   getLetterApplicationsByUserId,
-  updateLetterApplication,
+  rejectLetterApplication,
 } from "@/services/letter-application-service";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 import { useLetterApplicationStore } from "@/stores/use-letter-application-store";
@@ -17,7 +18,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useUserLogin } from "./use-users";
 
-const queryKey = "LetterApplication";
+const queryKey = "letter-applications";
 
 const toastText = "Jenis Surat ";
 
@@ -61,7 +62,7 @@ export function useCreateLetterApplication() {
   });
 }
 
-export function useUpdateLetterApplication() {
+export function useApproveLetterApplication() {
   const queryClient = useQueryClient();
   const { deleteSelectedData } = useLetterApplicationStore();
   const { closeDialog } = useIsDialogOpenStore();
@@ -74,7 +75,7 @@ export function useUpdateLetterApplication() {
       id: number;
       payload: TLetterApplication;
     }) =>
-      updateLetterApplication({
+      approveLetterApplication({
         id,
         payload,
       }),
@@ -83,12 +84,46 @@ export function useUpdateLetterApplication() {
       queryClient.invalidateQueries({
         queryKey: [queryKey, variables.id],
       });
-      toast.success(toastText + "berhasil diperbarui");
+      toast.success(toastText + "berhasil diterima");
       closeDialog();
       deleteSelectedData();
     },
     onError: (error) => {
-      toast.error(toastText + "gagal diperbarui");
+      toast.error(toastText + "gagal diterima");
+      console.error("Error updating data:", error);
+      closeDialog();
+    },
+  });
+}
+
+export function useRejectLetterApplication() {
+  const queryClient = useQueryClient();
+  const { deleteSelectedData } = useLetterApplicationStore();
+  const { closeDialog } = useIsDialogOpenStore();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: number;
+      payload: TLetterApplication;
+    }) =>
+      rejectLetterApplication({
+        id,
+        payload,
+      }),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
+      queryClient.invalidateQueries({
+        queryKey: [queryKey, variables.id],
+      });
+      toast.success(toastText + "berhasil ditolak");
+      closeDialog();
+      deleteSelectedData();
+    },
+    onError: (error) => {
+      toast.error(toastText + "gagal ditolak");
       console.error("Error updating data:", error);
       closeDialog();
     },

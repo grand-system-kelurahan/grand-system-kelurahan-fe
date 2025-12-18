@@ -1,9 +1,9 @@
-import EmployeeDashboardPage from "@/components/pages/employee/dashboard-page";
 import { Metadata } from "next";
 
+import EmployeeDashboardPage from "@/components/pages/employee/dashboard-page";
 
 export const metadata: Metadata = {
-  title: "Penduduk | Signal",
+  title: "Pegawai | Signal",
 };
 
 export default function Page() {

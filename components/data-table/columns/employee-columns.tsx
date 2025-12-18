@@ -1,11 +1,7 @@
-import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import type { ColumnDef } from "@tanstack/react-table";
-import { useUsers } from "@/hooks/use-users";
-import { useDeleteEmployee, useUpdateEmployee } from "@/hooks/use-employees";
-import { useEmployeeStore } from "@/stores/use-employee-store";
-import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
-import type { TEmployeeWithRelation } from "@/schemas/employee-schema";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useMemo, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,7 +10,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useDeleteEmployee, useUpdateEmployee } from "@/hooks/use-employees";
+import { useUsers } from "@/hooks/use-users";
+import { useEmployeeStore } from "@/stores/use-employee-store";
+import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 
+import type { ColumnDef } from "@tanstack/react-table";
+import type { TEmployeeWithRelation } from "@/schemas/employee-schema";
 type CellProps = { row: { original: TEmployeeWithRelation } };
 
 export function EmployeeActionsCell({ row }: CellProps) {
@@ -110,13 +112,12 @@ export function EmployeeActionsCell({ row }: CellProps) {
             </div>
 
             <select
-              className="w-full rounded border px-3 py-2"
+              className="px-3 py-2 border rounded w-full"
               value={selectedUserId}
               onChange={(e) =>
                 setSelectedUserId(e.target.value ? Number(e.target.value) : "")
               }
-              disabled={usersLoading || assigning}
-            >
+              disabled={usersLoading || assigning}>
               <option value="">-- Pilih Pengguna --</option>
               {users.map((u: any) => (
                 <option key={u.id} value={u.id}>
@@ -130,14 +131,12 @@ export function EmployeeActionsCell({ row }: CellProps) {
             <Button
               variant="outline"
               onClick={() => setAssignDialogOpen(false)}
-              disabled={assigning}
-            >
+              disabled={assigning}>
               Batal
             </Button>
             <Button
               onClick={handleSaveAssign}
-              disabled={assigning || !selectedUserId}
-            >
+              disabled={assigning || !selectedUserId}>
               {assigning ? "Menyimpan..." : "Simpan"}
             </Button>
           </DialogFooter>

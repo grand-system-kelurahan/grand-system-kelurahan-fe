@@ -1,12 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/hooks/use-employee.ts
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
-import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
-import { useEmployeeStore } from "@/stores/use-employee-store";
 
 import { TEmployeeWithRelation } from "@/schemas/employee-schema";
+import { useEmployeeStore } from "@/stores/use-employee-store";
+import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const queryKey = "employees";
 const toastText = "Pegawai ";

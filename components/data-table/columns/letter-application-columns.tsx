@@ -4,6 +4,15 @@
 import { Pencil, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ButtonOutlineCSS } from "@/consts/button-css";
 import { TLetterApplicationWithRelation } from "@/schemas/letter-application-schema";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 import { useLetterApplicationStore } from "@/stores/use-letter-application-store";
@@ -54,22 +63,26 @@ export const letterApplicationColumns: ColumnDef<TLetterApplicationWithRelation>
         const letterApplication = row.original;
         const { openDialog } = useIsDialogOpenStore();
         const { setSelectedData } = useLetterApplicationStore();
-        const handleEdit = () => {
-          openDialog("edit");
-          setSelectedData(letterApplication);
-        };
-        const handleDelete = () => {
-          openDialog("delete");
+        const handleApprove = () => {
+          openDialog("approve");
           setSelectedData(letterApplication);
         };
         return (
           <div className="flex gap-2">
-            <Button size={"sm"} variant={"outline"} onClick={handleEdit}>
-              <Pencil />
-            </Button>
-            <Button size={"sm"} variant={"destructive"} onClick={handleDelete}>
-              <Trash />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger className={ButtonOutlineCSS}>
+                <Pencil />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleApprove}>
+                  Terima
+                </DropdownMenuItem>
+                <DropdownMenuItem>Tolak</DropdownMenuItem>
+                <DropdownMenuItem>Detail</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         );
       },

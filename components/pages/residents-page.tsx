@@ -27,7 +27,7 @@ export default function ResidentsPage() {
   const { data, isLoading, refetch } = useResidents();
 
   const residentsData: TResidentWithRelation[] = useMemo(
-    () => data?.data?.residents || [],
+    () => data?.data || [],
     [data]
   );
 

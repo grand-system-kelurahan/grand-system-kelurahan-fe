@@ -19,7 +19,7 @@ import { ButtonOutlineGreen } from "@/consts/button-css";
 import { JenisPekerjaan } from "@/consts/data-definitions";
 import { usePathSegments } from "@/hooks/use-path-segment";
 import { useRegions } from "@/hooks/use-regions";
-import { calculateAge, formatDate } from "@/lib/utils";
+import { calculateAge, formatDate, mapToOptions } from "@/lib/utils";
 import { TRegion } from "@/schemas/region-schema";
 import { TResident, TResidentWithRelation } from "@/schemas/resident-schema";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
@@ -92,11 +92,8 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
     accessorKey: "lingkungan",
     header: ({ column }) => {
       const { data, isLoading } = useRegions();
-      const regionsData: TRegion[] = data?.data?.regions || [];
-      const regionOptions: TSelectOption[] = regionsData.map((banjar) => ({
-        value: banjar.id as number,
-        label: banjar.name,
-      }));
+      const regionsData: TRegion[] = data?.data || [];
+      const regionOptions = mapToOptions(regionsData, "id", "name");
 
       return (
         <div className="flex flex-col justify-start items-start gap-2 p-2">
@@ -104,7 +101,8 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
           <Select
             onValueChange={(value) => {
               column.setFilterValue(value === "all" ? undefined : value);
-            }}>
+            }}
+            disabled={isLoading}>
             <SelectTrigger className="w-[120px] h-7 text-sm">
               <SelectValue placeholder="Pilih" />
             </SelectTrigger>
@@ -127,10 +125,12 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
       );
     },
     filterFn: (row, id, filterValue) => {
-      if (!filterValue) return true;
-      return (
-        row.getValue(id)?.toString().toLowerCase() === filterValue.toLowerCase()
-      );
+      if (!filterValue || filterValue === "all") return true;
+
+      const resident = row.original;
+      const regionId = resident?.region_id?.toString();
+
+      return regionId === filterValue.toString();
     },
   },
   {

@@ -38,7 +38,7 @@ export default function EditFamilyCardPage({ id }: Props) {
         </div>
       )}
       {isLoading ? (
-        <FormSkeleton columnCount={2} rowCount={8} />
+        <FormSkeleton columnCount={2} rowCount={3} />
       ) : (
         <EditFamilyCardForm familyCard={familyCardData} />
       )}

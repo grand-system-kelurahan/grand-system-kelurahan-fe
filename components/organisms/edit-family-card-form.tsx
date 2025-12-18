@@ -20,6 +20,7 @@ export default function EditFamilyCardForm({ familyCard, isLoading }: Props) {
   const form = useForm<TFamilyCard>({
     resolver: zodResolver(FormFamilyCardSchema),
     defaultValues: {
+      family_card_number: familyCard.family_card_number,
       address: familyCard.address,
       head_of_family_name: familyCard.head_of_family_name,
       publication_date: new Date(familyCard.publication_date),

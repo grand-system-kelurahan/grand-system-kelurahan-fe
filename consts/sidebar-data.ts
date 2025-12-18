@@ -51,7 +51,7 @@ export const sidebarData = [
       },
     ],
   },
- {
+  {
     title: "Absensi",
     url: "/admin/dashboard/employees",
     items: [
@@ -65,7 +65,7 @@ export const sidebarData = [
       },
     ],
   },
-  
+
   {
     title: "Pengajuan Surat",
     url: "/admin/dashboard/letter-applications",

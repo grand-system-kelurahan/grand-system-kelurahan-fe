@@ -30,6 +30,10 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export const familyCardColumns: ColumnDef<TFamilyCardWithRelation>[] = [
   {
+    accessorKey: "family_card_number",
+    header: "Nomor Kartu Keluarga",
+  },
+  {
     accessorKey: "head_of_family_name",
     header: "Nama Kepala Keluarga",
     cell: ({ row }) => {
@@ -43,7 +47,7 @@ export const familyCardColumns: ColumnDef<TFamilyCardWithRelation>[] = [
     accessorKey: "lingkungan",
     header: ({ column }) => {
       const { data, isLoading } = useRegions();
-      const regionsData: TRegion[] = useMemo(() => data?.data?.regions, [data]);
+      const regionsData: TRegion[] = useMemo(() => data?.data || [], [data]);
       const regionOptions: TSelectOption[] = mapToOptions(
         regionsData || [],
         "id",
@@ -55,7 +59,8 @@ export const familyCardColumns: ColumnDef<TFamilyCardWithRelation>[] = [
           <Select
             onValueChange={(value) => {
               column.setFilterValue(value === "all" ? undefined : value);
-            }}>
+            }}
+            disabled={isLoading}>
             <SelectTrigger className="w-[120px] h-7 text-sm">
               <SelectValue placeholder="Pilih" />
             </SelectTrigger>
@@ -76,10 +81,12 @@ export const familyCardColumns: ColumnDef<TFamilyCardWithRelation>[] = [
       return <p className="uppercase">{familyCard?.region?.name || "-"}</p>;
     },
     filterFn: (row, id, filterValue) => {
-      if (!filterValue) return true;
-      return (
-        row.getValue(id)?.toString().toLowerCase() === filterValue.toLowerCase()
-      );
+      if (!filterValue || filterValue === "all") return true;
+
+      const familyCard = row.original;
+      const regionId = familyCard?.region_id?.toString();
+
+      return regionId === filterValue.toString();
     },
   },
   {
