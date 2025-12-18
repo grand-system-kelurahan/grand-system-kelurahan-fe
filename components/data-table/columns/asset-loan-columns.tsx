@@ -104,6 +104,11 @@ export const assetLoanColumns: ColumnDef<TAssetLoanWithRelations>[] = [
     cell: ({ row }) => getStatusBadge(row.getValue("loan_status")),
   },
   {
+    accessorKey: "rejected_reason",
+    header: "Alasan Penolakan",
+    cell: ({ row }) => getStatusBadge(row.getValue("rejected_reason") ?? "-"),
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const loan = row.original;
@@ -125,9 +130,9 @@ export const assetLoanColumns: ColumnDef<TAssetLoanWithRelations>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => handleAction("view")}>
+            {/* <DropdownMenuItem onClick={() => handleAction("view")}>
               Detail
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
 
             {loan.loan_status === "requested" && (
               <>

@@ -65,6 +65,7 @@ export const AssetLoanQuerySchema = z.object({
   resident_id: z.string().transform(Number).optional(),
   from_date: z.string().date().optional(),
   to_date: z.string().date().optional(),
+  asset_id: z.number().optional(), 
   sort_by: z
     .enum([
       "id",

@@ -19,7 +19,7 @@ export default function RejectLoanForm({ loan }: RejectLoanFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const [customReason, setCustomReason] = useState("");
-  const { setDialogType } = useIsDialogOpenStore();
+  const { closeDialog } = useIsDialogOpenStore();
   const rejectMutation = useRejectLoan();
 
   const predefinedReasons = [
@@ -34,46 +34,36 @@ export default function RejectLoanForm({ loan }: RejectLoanFormProps) {
     e.preventDefault();
     
     if (!rejectionReason) {
-      toast({
-        title: "Perhatian",
-        description: "Harap pilih atau tulis alasan penolakan",
-        variant: "destructive",
-      });
+      toast.error("Pilih alasan penolakan");
       return;
     }
 
+    
     const finalReason = rejectionReason === "Lainnya" ? customReason : rejectionReason;
+    console.log(finalReason);
 
     setIsLoading(true);
 
     try {
-      await rejectMutation.mutateAsync({
+      const result = await rejectMutation.mutateAsync({
         id: loan.id!,
         rejected_reason: finalReason,
       });
+
+      console.log(result);
       
-      toast({
-        title: "Berhasil Ditolak",
-        description: `Pengajuan peminjaman ${loan.asset?.asset_name} telah ditolak`,
-        variant: "default",
-      });
+      toast.success("Berhasil menolak peminjaman");
       
-      setDialogType(null);
+      closeDialog();
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Gagal menolak peminjaman";
-      
-      toast({
-        title: "Gagal",
-        description: errorMessage,
-        variant: "destructive",
-      });
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleCancel = () => {
-    setDialogType(null);
+    closeDialog();
   };
 
   return (

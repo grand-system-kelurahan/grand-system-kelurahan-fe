@@ -90,7 +90,7 @@ export default function AssetLoansPage() {
 
   return (
     <div className="space-y-6">
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
