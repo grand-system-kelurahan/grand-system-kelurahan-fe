@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+
 import type { NextRequest } from "next/server";
 
 type Role = "admin" | "pegawai" | "user";
@@ -7,7 +8,11 @@ function readRoleFromCookie(request: NextRequest): Role | null {
   // Pilih salah satu format cookie yang kamu simpan:
   // 1) cookie role langsung: role=admin|pegawai|user
   const roleDirect = request.cookies.get("role")?.value as Role | undefined;
-  if (roleDirect === "admin" || roleDirect === "pegawai" || roleDirect === "user") {
+  if (
+    roleDirect === "admin" ||
+    roleDirect === "pegawai" ||
+    roleDirect === "user"
+  ) {
     return roleDirect;
   }
 
@@ -17,7 +22,8 @@ function readRoleFromCookie(request: NextRequest): Role | null {
 
   try {
     const u = JSON.parse(userRaw) as { role?: Role };
-    if (u.role === "admin" || u.role === "pegawai" || u.role === "user") return u.role;
+    if (u.role === "admin" || u.role === "pegawai" || u.role === "user")
+      return u.role;
     return null;
   } catch {
     return null;
