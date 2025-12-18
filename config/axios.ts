@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearAuthCookies, getTokenDecoded } from "@/lib/auth-utils";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -10,29 +11,21 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
+      const token = getTokenDecoded(); // ✅ decode token cookie (%7C -> |)
+      if (token) config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-        // window.location.href = "/login";
+        clearAuthCookies();
+        window.location.href = "/login";
       }
     }
     return Promise.reject(error);
