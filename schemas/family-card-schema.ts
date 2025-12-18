@@ -6,6 +6,9 @@ import { TRegion } from "./region-schema";
 
 export const FormFamilyCardSchema = z
   .object({
+    family_card_number: z.string().min(2, {
+      message: "Nomor kartu keluarga harus diisi minimal 2 karakter",
+    }),
     head_of_family_name: z.string().min(2, {
       message: "Nama kepala keluarga harus diisi minimal 2 karakter",
     }),

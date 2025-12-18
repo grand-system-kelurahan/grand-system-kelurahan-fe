@@ -27,7 +27,7 @@ export default function FamilyCardsPage() {
   const { data, isLoading, refetch } = useFamilyCards();
 
   const familyCardsData: TFamilyCardWithRelation[] = useMemo(
-    () => data?.data?.family_cards || [],
+    () => data?.data || [],
     [data]
   );
 

@@ -4,7 +4,7 @@ import { FormUserSchema, TUser } from "@/schemas/user-schema";
 const ENDPOINT = "users";
 
 export const getAllUsers = async () => {
-  const { data } = await api.get(`/${ENDPOINT}`);
+  const { data } = await api.get(`/${ENDPOINT}?with_pagination=false`);
   return data;
 };
 

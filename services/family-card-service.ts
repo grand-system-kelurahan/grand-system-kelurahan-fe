@@ -7,7 +7,7 @@ import {
 const ENDPOINT = "family-cards";
 
 export const getAllFamilyCards = async () => {
-  const { data } = await api.get(`/${ENDPOINT}`);
+  const { data } = await api.get(`/${ENDPOINT}?with_pagination=false`);
   return data;
 };
 

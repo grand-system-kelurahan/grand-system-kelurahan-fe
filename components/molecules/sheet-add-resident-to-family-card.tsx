@@ -146,7 +146,7 @@ export default function SheetAddResientToFamilyCard({ familyCardId }: Props) {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="text-white">
+              <Button type="submit" className="">
                 <Search />
               </Button>
             </form>
@@ -160,7 +160,7 @@ export default function SheetAddResientToFamilyCard({ familyCardId }: Props) {
             </div>
           )}
           {error && <p>Error: {error.message}</p>}
-          {residentsData?.length === 0 ? (
+          {!isLoading && residentsData?.length === 0 ? (
             <p className="text-sm">Tidak ada penduduk yang cocok</p>
           ) : (
             <div className="space-y-2 pb-8 overflow-y-auto">
@@ -194,7 +194,7 @@ export default function SheetAddResientToFamilyCard({ familyCardId }: Props) {
                   </div>
                 ))}
               <Button
-                className="mt-4 w-full text-white"
+                className="mt-4 w-full"
                 disabled={isPending}
                 onClick={onSave}>
                 {isPending ? (

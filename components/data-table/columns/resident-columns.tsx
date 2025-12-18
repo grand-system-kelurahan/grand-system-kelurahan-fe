@@ -19,7 +19,7 @@ import { ButtonOutlineGreen } from "@/consts/button-css";
 import { JenisPekerjaan } from "@/consts/data-definitions";
 import { usePathSegments } from "@/hooks/use-path-segment";
 import { useRegions } from "@/hooks/use-regions";
-import { calculateAge, formatDate } from "@/lib/utils";
+import { calculateAge, formatDate, mapToOptions } from "@/lib/utils";
 import { TRegion } from "@/schemas/region-schema";
 import { TResident, TResidentWithRelation } from "@/schemas/resident-schema";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
@@ -29,10 +29,18 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
   {
+    accessorKey: "national_number_id",
+    header: "NIK",
+    cell: ({ row }) => {
+      const penduduk = row.original;
+      return <p>{penduduk.national_number_id}</p>;
+    },
+  },
+  {
     accessorKey: "name",
     header: "Nama Lengkap",
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       return <p className="uppercase">{penduduk.name}</p>;
     },
   },
@@ -84,19 +92,17 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
     accessorKey: "lingkungan",
     header: ({ column }) => {
       const { data, isLoading } = useRegions();
-      const regionsData: TRegion[] = data?.data?.regions || [];
-      const regionOptions: TSelectOption[] = regionsData.map((banjar) => ({
-        value: banjar.id as number,
-        label: banjar.name,
-      }));
+      const regionsData: TRegion[] = data?.data || [];
+      const regionOptions = mapToOptions(regionsData, "id", "name");
 
       return (
         <div className="flex flex-col justify-start items-start gap-2 p-2">
-          <span className="text-start">Banjar</span>
+          <span className="text-start">Lingkungan</span>
           <Select
             onValueChange={(value) => {
               column.setFilterValue(value === "all" ? undefined : value);
-            }}>
+            }}
+            disabled={isLoading}>
             <SelectTrigger className="w-[120px] h-7 text-sm">
               <SelectValue placeholder="Pilih" />
             </SelectTrigger>
@@ -119,10 +125,12 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
       );
     },
     filterFn: (row, id, filterValue) => {
-      if (!filterValue) return true;
-      return (
-        row.getValue(id)?.toString().toLowerCase() === filterValue.toLowerCase()
-      );
+      if (!filterValue || filterValue === "all") return true;
+
+      const resident = row.original;
+      const regionId = resident?.region_id?.toString();
+
+      return regionId === filterValue.toString();
     },
   },
   {
@@ -149,7 +157,7 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       return <p className="uppercase">{penduduk.occupation}</p>;
     },
     filterFn: (row, id, filterValue) => {
@@ -182,7 +190,7 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
       );
     },
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       return (
         <p className="uppercase">
           {formatDate(penduduk.updated_at?.toString())}
@@ -194,7 +202,7 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
     id: "Aksi",
     header: "Aksi",
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       const { setSelectedData } = useResidentStore();
       const { openDialog } = useIsDialogOpenStore();
       const pathSegments = usePathSegments();

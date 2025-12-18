@@ -3,31 +3,13 @@
 
 import { Eye, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ButtonOutlineGreen } from "@/consts/button-css";
 import { usePathSegments } from "@/hooks/use-path-segment";
-import { useRegions } from "@/hooks/use-regions";
-import { formatDate, mapToOptions } from "@/lib/utils";
 import { TAssetWithRelation } from "@/schemas/asset-schema";
-import {
-  TFamilyCard,
-  TFamilyCardWithRelation,
-} from "@/schemas/family-card-schema";
-import { TRegion } from "@/schemas/region-schema";
 import { useAssetStore } from "@/stores/use-asset-store";
-import { useFamilyCardStore } from "@/stores/use-family-card-store";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
-import { TSelectOption } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const assetColumns: ColumnDef<TAssetWithRelation>[] = [

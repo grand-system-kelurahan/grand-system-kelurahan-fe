@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { PlusCircle, Users } from "lucide-react";
@@ -5,13 +6,6 @@ import Link from "next/link";
 import { useMemo } from "react";
 
 import { Description, Heading1 } from "@/components/atoms/typography";
-import { Button } from "@/components/ui/button";
-import { usePathSegments } from "@/hooks/use-path-segment";
-import { useEmployees } from "@/hooks/use-employees";
-import { TEmployeeWithRelation } from "@/schemas/employee-schema";
-import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
-import { useEmployeeStore } from "@/stores/use-employee-store";
-
 import { employeeColumns } from "@/components/data-table/columns/employee-columns";
 import { DataTable } from "@/components/data-table/data-table";
 import CodeEditorDialog from "@/components/molecules/code-editor-dialog";
@@ -19,6 +13,12 @@ import DialogTemplate from "@/components/molecules/dialog-template";
 import { StatCard } from "@/components/molecules/stat-card";
 import TableSkeleton from "@/components/molecules/table-skeleton";
 import DeleteEmployeeForm from "@/components/organisms/delete-employee-form";
+import { Button } from "@/components/ui/button";
+import { useEmployees } from "@/hooks/use-employees";
+import { usePathSegments } from "@/hooks/use-path-segment";
+import { TEmployeeWithRelation } from "@/schemas/employee-schema";
+import { useEmployeeStore } from "@/stores/use-employee-store";
+import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 
 export default function EmployeeDashboardPage() {
   const pathSegments = usePathSegments();
@@ -28,13 +28,17 @@ export default function EmployeeDashboardPage() {
 
   const employeesData: TEmployeeWithRelation[] = useMemo(() => {
     if (Array.isArray(data)) return data as TEmployeeWithRelation[];
-    const list = (data as any)?.data?.employees ?? (data as any)?.employees ?? (data as any)?.data ?? [];
+    const list =
+      (data as any)?.data?.employees ??
+      (data as any)?.employees ??
+      (data as any)?.data ??
+      [];
     return Array.isArray(list) ? (list as TEmployeeWithRelation[]) : [];
   }, [data]);
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <div>
           <Heading1 text="Data Pegawai" />
           <Description text="Data Pegawai yang tersedia" />
@@ -65,15 +69,19 @@ export default function EmployeeDashboardPage() {
             description="Total pegawai di Kelurahan"
             icon={Users}
           />
-          <DataTable columns={employeeColumns} data={employeesData} filteringKey="name" refetch={refetch} />
+          <DataTable
+            columns={employeeColumns}
+            data={employeesData}
+            filteringKey="name"
+            refetch={refetch}
+          />
         </div>
       )}
 
       {dialogType === "delete" && selectedData && (
         <DialogTemplate
           title="Hapus Data Pegawai"
-          description={`Aksi ini akan menghapus data pegawai ${selectedData.name}. Apakah anda yakin?`}
-        >
+          description={`Aksi ini akan menghapus data pegawai ${selectedData.name}. Apakah anda yakin?`}>
           <DeleteEmployeeForm employee={selectedData} />
         </DialogTemplate>
       )}

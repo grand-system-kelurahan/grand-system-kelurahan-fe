@@ -27,7 +27,7 @@ export default function UsersPage() {
   const { selectedData } = useUserStore();
   const { data, isLoading, refetch } = useUsers();
 
-  const userData: TUser[] = useMemo(() => data?.data?.users || [], [data]);
+  const userData: TUser[] = useMemo(() => data?.data || [], [data]);
 
   return (
     <div>

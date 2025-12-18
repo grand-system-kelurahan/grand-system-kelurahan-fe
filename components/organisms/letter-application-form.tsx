@@ -1,3 +1,4 @@
+import { LucideLetterText } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 
@@ -10,6 +11,7 @@ import { TResident } from "@/schemas/resident-schema";
 import { TSelectOption } from "@/types/types";
 
 import ButtonSave from "../atoms/button-save";
+import { EmptyOutline } from "../molecules/empty-outline";
 import FormSkeleton from "../molecules/form-skeleton";
 import { InputSelect } from "../molecules/input-select";
 import { InputTextarea } from "../molecules/input-text-area";
@@ -56,6 +58,12 @@ export default function LetterApplicationForm({
     <>
       {isLoadingLetterTypes ? (
         <FormSkeleton columnCount={1} rowCount={3} />
+      ) : letterTypesData && letterTypesData.length == 0 ? (
+        <EmptyOutline
+          title="Data Jenis Surat Tidak DItemukan"
+          description="Data jenis surat tidak ditemukan, silahkan hubungi admin."
+          icon={LucideLetterText}
+        />
       ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

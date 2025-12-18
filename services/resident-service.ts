@@ -4,7 +4,7 @@ import { FormResidentSchema, TResident } from "@/schemas/resident-schema";
 const ENDPOINT = "residents";
 
 export const getAllResidents = async () => {
-  const { data } = await api.get(`/${ENDPOINT}`);
+  const { data } = await api.get(`/${ENDPOINT}?with_pagination=false`);
   return data;
 };
 

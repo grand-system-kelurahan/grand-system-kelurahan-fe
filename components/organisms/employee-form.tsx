@@ -1,21 +1,26 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import type { UseFormReturn } from "react-hook-form";
 import { useMemo } from "react";
 
-import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-import { useUsers } from "@/hooks/use-users";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useRegions } from "@/hooks/use-regions";
+import { useUsers } from "@/hooks/use-users";
 
-import type { TEmployeeFormValues } from "./employee-upsert-form";
 import { ResidentSearchSelect } from "./employee-resident-form";
 
+import type { TEmployeeFormValues } from "./employee-upsert-form";
 type Props = {
   form: UseFormReturn<TEmployeeFormValues>;
   onSubmit: (values: TEmployeeFormValues) => void | Promise<void>;
@@ -23,17 +28,23 @@ type Props = {
   isCreate?: boolean;
 };
 
-export default function EmployeeForm({ form, onSubmit, isLoading, isCreate }: Props) {
+export default function EmployeeForm({
+  form,
+  onSubmit,
+  isLoading,
+  isCreate,
+}: Props) {
   const { data: usersResp, isLoading: usersLoading } = useUsers();
   const { data: regionsResp, isLoading: regionsLoading } = useRegions();
 
   const users = useMemo(() => {
-    const list = (usersResp as any)?.data?.users ?? (usersResp as any)?.users ?? usersResp ?? [];
+    const list =
+      (usersResp as any)?.data ?? (usersResp as any)?.users ?? usersResp ?? [];
     return Array.isArray(list) ? list : [];
   }, [usersResp]);
 
   const regions = useMemo(() => {
-    const list = (regionsResp as any)?.data?.regions ?? (regionsResp as any)?.regions ?? regionsResp ?? [];
+    const list = (regionsResp as any)?.data ?? [];
     return Array.isArray(list) ? list : [];
   }, [regionsResp]);
 
@@ -43,16 +54,24 @@ export default function EmployeeForm({ form, onSubmit, isLoading, isCreate }: Pr
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="gap-4 grid grid-cols-1 md:grid-cols-2">
         <div className="space-y-2">
           <Label>Nomor Pegawai</Label>
           <Input
             value={form.watch("employee_number") ?? ""}
-            onChange={(e) => form.setValue("employee_number", e.target.value, { shouldValidate: true })}
+            onChange={(e) =>
+              form.setValue("employee_number", e.target.value, {
+                shouldValidate: true,
+              })
+            }
             placeholder="EMP001"
           />
           {form.formState.errors.employee_number?.message && (
-            <p className="text-sm text-destructive">{form.formState.errors.employee_number.message}</p>
+            <p className="text-destructive text-sm">
+              {form.formState.errors.employee_number.message}
+            </p>
           )}
         </div>
 
@@ -60,11 +79,15 @@ export default function EmployeeForm({ form, onSubmit, isLoading, isCreate }: Pr
           <Label>Nama</Label>
           <Input
             value={form.watch("name") ?? ""}
-            onChange={(e) => form.setValue("name", e.target.value, { shouldValidate: true })}
+            onChange={(e) =>
+              form.setValue("name", e.target.value, { shouldValidate: true })
+            }
             placeholder="Nama Pegawai"
           />
           {form.formState.errors.name?.message && (
-            <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
+            <p className="text-destructive text-sm">
+              {form.formState.errors.name.message}
+            </p>
           )}
         </div>
 
@@ -72,14 +95,22 @@ export default function EmployeeForm({ form, onSubmit, isLoading, isCreate }: Pr
           <Label>Jabatan</Label>
           <Input
             value={form.watch("position") ?? ""}
-            onChange={(e) => form.setValue("position", e.target.value, { shouldValidate: true })}
+            onChange={(e) =>
+              form.setValue("position", e.target.value, {
+                shouldValidate: true,
+              })
+            }
             placeholder="Staff / Manager"
           />
         </div>
 
         <div className="space-y-2">
           <Label>Status Aktif</Label>
-          <Select value={activeValue} onValueChange={(v) => form.setValue("is_active", Number(v), { shouldValidate: true })}>
+          <Select
+            value={activeValue}
+            onValueChange={(v) =>
+              form.setValue("is_active", Number(v), { shouldValidate: true })
+            }>
             <SelectTrigger>
               <SelectValue placeholder="Pilih status" />
             </SelectTrigger>
@@ -94,11 +125,18 @@ export default function EmployeeForm({ form, onSubmit, isLoading, isCreate }: Pr
           <Label>User</Label>
           <Select
             value={userValue ? String(userValue) : ""}
-            onValueChange={(v) => form.setValue("user_id", v ? Number(v) : undefined, { shouldValidate: true })}
-            disabled={usersLoading}
-          >
+            onValueChange={(v) =>
+              form.setValue("user_id", v ? Number(v) : undefined, {
+                shouldValidate: true,
+              })
+            }
+            disabled={usersLoading}>
             <SelectTrigger>
-              <SelectValue placeholder={usersLoading ? "Memuat pengguna..." : "Pilih pengguna"} />
+              <SelectValue
+                placeholder={
+                  usersLoading ? "Memuat pengguna..." : "Pilih pengguna"
+                }
+              />
             </SelectTrigger>
             <SelectContent>
               {users.map((u: any) => (
@@ -114,7 +152,9 @@ export default function EmployeeForm({ form, onSubmit, isLoading, isCreate }: Pr
           <Label>Penduduk</Label>
           <ResidentSearchSelect form={form} disabled={!!isLoading} />
           {form.formState.errors.resident_id?.message && (
-            <p className="text-sm text-destructive">{String(form.formState.errors.resident_id.message)}</p>
+            <p className="text-destructive text-sm">
+              {String(form.formState.errors.resident_id.message)}
+            </p>
           )}
         </div>
 
@@ -122,11 +162,18 @@ export default function EmployeeForm({ form, onSubmit, isLoading, isCreate }: Pr
           <Label>Region</Label>
           <Select
             value={regionValue ? String(regionValue) : ""}
-            onValueChange={(v) => (form as any).setValue("region_id", v ? Number(v) : undefined, { shouldValidate: true })}
-            disabled={regionsLoading}
-          >
+            onValueChange={(v) =>
+              (form as any).setValue("region_id", v ? Number(v) : undefined, {
+                shouldValidate: true,
+              })
+            }
+            disabled={regionsLoading}>
             <SelectTrigger>
-              <SelectValue placeholder={regionsLoading ? "Memuat lingkungan..." : "Pilih lingkungan"} />
+              <SelectValue
+                placeholder={
+                  regionsLoading ? "Memuat lingkungan..." : "Pilih lingkungan"
+                }
+              />
             </SelectTrigger>
             <SelectContent>
               {regions.map((r: any) => (
@@ -137,7 +184,9 @@ export default function EmployeeForm({ form, onSubmit, isLoading, isCreate }: Pr
             </SelectContent>
           </Select>
           {form.formState.errors.region_id?.message && (
-            <p className="text-sm text-destructive">{String(form.formState.errors.region_id.message)}</p>
+            <p className="text-destructive text-sm">
+              {String(form.formState.errors.region_id.message)}
+            </p>
           )}
         </div>
 
@@ -145,7 +194,11 @@ export default function EmployeeForm({ form, onSubmit, isLoading, isCreate }: Pr
           <Button type="submit" disabled={!!isLoading}>
             {isLoading ? "Menyimpan..." : isCreate ? "Tambah" : "Simpan"}
           </Button>
-          <Button type="button" variant="outline" onClick={() => window.history.back()} disabled={!!isLoading}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => window.history.back()}
+            disabled={!!isLoading}>
             Batal
           </Button>
         </div>

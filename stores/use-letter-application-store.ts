@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
-import { TLetterApplication } from "@/schemas/letter-application-schema";
+import { TLetterApplicationWithRelation } from "@/schemas/letter-application-schema";
 
 type LetterApplicationStore = {
-  selectedData: TLetterApplication | null;
-  setSelectedData: (data: TLetterApplication | null) => void;
+  selectedData: TLetterApplicationWithRelation | null;
+  setSelectedData: (data: TLetterApplicationWithRelation | null) => void;
   deleteSelectedData: () => void;
 };
 

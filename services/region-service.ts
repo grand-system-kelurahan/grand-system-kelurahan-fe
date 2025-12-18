@@ -4,7 +4,7 @@ import { FormRegionSchema, TRegion } from "@/schemas/region-schema";
 const ENDPOINT = "regions";
 
 export const getAllRegions = async () => {
-  const { data } = await api.get(`/${ENDPOINT}`);
+  const { data } = await api.get(`/${ENDPOINT}?with_pagination=false`);
   return data;
 };
 

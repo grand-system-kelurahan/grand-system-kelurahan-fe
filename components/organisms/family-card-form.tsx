@@ -21,17 +21,14 @@ interface Props {
 }
 
 export default function FamilyCardForm({ form, isLoading, onSubmit }: Props) {
-  const { data, isLoading: isLoadingLingkungan } = useRegions();
-  const regionsData: TRegion[] = useMemo(
-    () => data?.data?.regions || [],
-    [data?.data]
-  );
+  const { data, isLoading: isLoadingRegions } = useRegions();
+  const regionsData: TRegion[] = useMemo(() => data?.data || [], [data]);
   const lingkunganOptions = mapToOptions(regionsData, "id", "name");
 
   return (
     <>
-      {isLoadingLingkungan ? (
-        <FormSkeleton columnCount={2} rowCount={2} />
+      {isLoadingRegions ? (
+        <FormSkeleton columnCount={2} rowCount={3} />
       ) : (
         <Form {...form}>
           <div className="flex gap-2 my-5">
@@ -40,6 +37,13 @@ export default function FamilyCardForm({ form, isLoading, onSubmit }: Props) {
           </div>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
+              <InputText
+                control={form.control}
+                name="family_card_number"
+                label="Nomor Kartu Keluarga"
+                placeholder="Nomor kartu keluarga"
+                isDisabled={isLoading}
+              />
               <InputText
                 control={form.control}
                 name="head_of_family_name"

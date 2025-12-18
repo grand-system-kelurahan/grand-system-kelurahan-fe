@@ -11,6 +11,11 @@ export const getAllLetterApplications = async () => {
   return data;
 };
 
+export const getLetterApplicationsByUserId = async (userId: number) => {
+  const { data } = await api.get(`/users/${userId}/${ENDPOINT}`);
+  return data;
+};
+
 export const createLetterApplication = async (payload: TLetterApplication) => {
   const parsed = FormLetterApplicationSchema.partial().safeParse(payload);
   if (!parsed.success) {
@@ -20,7 +25,7 @@ export const createLetterApplication = async (payload: TLetterApplication) => {
   return data;
 };
 
-export const updateLetterApplication = async ({
+export const approveLetterApplication = async ({
   id,
   payload,
 }: {
@@ -31,7 +36,22 @@ export const updateLetterApplication = async ({
   if (!parsed.success) {
     return parsed.error;
   }
-  const { data } = await api.put(`/${ENDPOINT}/${id}`, parsed.data);
+  const { data } = await api.put(`/${ENDPOINT}/${id}/approve`, parsed.data);
+  return data;
+};
+
+export const rejectLetterApplication = async ({
+  id,
+  payload,
+}: {
+  id: number;
+  payload: Partial<TLetterApplication>;
+}) => {
+  const parsed = FormLetterApplicationSchema.partial().safeParse(payload);
+  if (!parsed.success) {
+    return parsed.error;
+  }
+  const { data } = await api.put(`/${ENDPOINT}/${id}/reject`, parsed.data);
   return data;
 };
 

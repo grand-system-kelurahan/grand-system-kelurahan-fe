@@ -25,10 +25,7 @@ export default function RegionsPage() {
   const { data, isLoading, refetch } = useRegions();
   const { selectedData } = useRegionStore();
 
-  const regionsData: TRegion[] = useMemo(
-    () => data?.data?.regions || [],
-    [data?.data]
-  );
+  const regionsData: TRegion[] = useMemo(() => data?.data || [], [data]);
 
   return (
     <div className="">
