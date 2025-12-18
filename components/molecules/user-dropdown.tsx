@@ -29,7 +29,7 @@ export default function UserDropdown() {
   const { mutateAsync, isPending } = useLogout();
   const router = useRouter();
 
-  const userData: TUser = useMemo(() => data?.data, [data?.data]);
+  const userData: TUser = useMemo(() => data, [data]);
 
   const role = userData?.role;
   const urlDashboard =

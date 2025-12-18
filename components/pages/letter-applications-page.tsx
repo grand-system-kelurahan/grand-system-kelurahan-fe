@@ -38,7 +38,7 @@ export default function LetterApplicationsPage() {
     [data]
   );
 
-  const userData: TUser = useMemo(() => user?.data, [user]);
+  const userData: TUser = useMemo(() => user, [user]);
 
   return (
     <div>
