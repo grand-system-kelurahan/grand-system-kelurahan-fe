@@ -31,9 +31,15 @@ export default function AssetLoanForm({ form, isLoading, onSubmit }: Props) {
   const assetsData: TAsset[] = useMemo(() => data?.data, [data]);
   const assetOptions = mapToOptions(assetsData, "id", "asset_name");
 
+  const selectedAssetId = form.watch("asset_id");
+
   function handleResidentChange(resident: TResident | null) {
     setResident(resident);
   }
+
+  const selectedAsset = useMemo(() => {
+    return assetsData?.find((asset) => asset.id === selectedAssetId);
+  }, [assetsData, selectedAssetId]);
 
   useEffect(() => {
     if (resident) {
@@ -58,7 +64,11 @@ export default function AssetLoanForm({ form, isLoading, onSubmit }: Props) {
           <InputNumber
             control={form.control}
             name="quantity"
-            label="Kuantitas"
+            label={
+              selectedAsset
+                ? `Kuantitas (Stok tersedia: ${selectedAsset.available_stock})`
+                : "Kuantitas"
+            }
             placeholder="Kuantitas"
             isDisabled={isLoading}
           />
