@@ -17,7 +17,7 @@ export default function AddLetterApplicationForm() {
   const { mutateAsync, isPending } = useCreateLetterApplication();
   const { data, isLoading } = useUserLogin();
   const router = useRouter();
-  const userData: TUser = useMemo(() => data?.data, [data]);
+  const userData: TUser = useMemo(() => data, [data]);
 
   if (!isLoading && !userData) {
     router.push("/login");

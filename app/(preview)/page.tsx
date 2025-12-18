@@ -1,12 +1,13 @@
 import { HeroComponent } from "@/components/organisms/hero-component";
 import { Navbar } from "@/components/organisms/navbar";
+import ReportPublicPage from "@/components/pages/report-public-page";
 
 export default function Home() {
   return (
     <div>
-      <Navbar />
       <div className="relative w-full min-h-screen">
         <HeroComponent />
+        <ReportPublicPage />
         <div
           className="dark:hidden -z-20 absolute inset-0"
           style={{

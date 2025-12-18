@@ -8,7 +8,7 @@ import {
 
 export const checkUserLogin = async () => {
   const { data } = await api.get("/me");
-  return data;
+  return data.data; // ✅ langsung user object
 };
 
 export const register = async (payload: TRegister) => {

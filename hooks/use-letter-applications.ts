@@ -31,7 +31,7 @@ export function useLetterApplications() {
 
 export function useMyLetterApplications() {
   const { data, isLoading } = useUserLogin();
-  const userData: TUser = useMemo(() => data?.data, [data]);
+  const userData: TUser = useMemo(() => data, [data]);
   return useQuery({
     queryKey: [queryKey],
     queryFn: () => getLetterApplicationsByUserId(userData.id as number),
