@@ -21,10 +21,10 @@ import { letterApplicationColumns } from "../data-table/columns/letter-applicati
 import { DataTable } from "../data-table/data-table";
 import CodeEditorDialog from "../molecules/code-editor-dialog";
 import DialogTemplate from "../molecules/dialog-template";
+import LetterApplicationDetail from "../molecules/letter-application-detail";
 import { StatCard } from "../molecules/stat-card";
 import TableSkeleton from "../molecules/table-skeleton";
 import ApproveLetterApplicationForm from "../organisms/approve-letter-application-form";
-import DeleteLetterApplicationForm from "../organisms/delete-family-card-form";
 
 export default function LetterApplicationsPage() {
   const pathSegments = usePathSegments();
@@ -38,12 +38,22 @@ export default function LetterApplicationsPage() {
     [data]
   );
 
-  const userData: TUser = useMemo(() => data?.data, [data]);
+  const userData: TUser = useMemo(() => user?.data, [user]);
 
   return (
     <div>
-      <Heading1 text="Data Pengajuan Surat" />
-      <Description text="Data pengajuan surat yang tersedia" />
+      <div className="flex justify-between items-center">
+        <div>
+          <Heading1 text="Data Pengajuan Surat" />
+          <Description text="Data pengajuan surat yang tersedia" />
+        </div>
+        <Link href={pathSegments.fullPath + "/new"}>
+          <Button>
+            <PlusCircle />
+            Tambah Data Pengajuan
+          </Button>
+        </Link>
+      </div>
 
       <hr className="my-4" />
       {data && (
@@ -51,7 +61,7 @@ export default function LetterApplicationsPage() {
           <CodeEditorDialog content={data} />
         </div>
       )}
-      {isLoading ? (
+      {isLoading || isLoadingUser ? (
         <TableSkeleton rowCount={10} columnCount={3} />
       ) : (
         <div className="space-y-4">
@@ -64,16 +74,17 @@ export default function LetterApplicationsPage() {
           <DataTable
             columns={letterApplicationColumns}
             data={letterApplicationsData}
-            filteringKey="letter_number"
+            filteringKey="resident_name"
             refetch={refetch}
           />
         </div>
       )}
-      {dialogType == "approve" && selectedData && userData && (
+
+      {dialogType == "view" && selectedData && userData && (
         <DialogTemplate
           title="Terima Pengajuan Surat"
           description={`Anda akan menerima pengajuan surat dengan nomor ${selectedData.resident?.name}`}>
-          <ApproveLetterApplicationForm
+          <LetterApplicationDetail
             letterApplication={selectedData}
             approvedBy={userData}
           />

@@ -1,15 +1,22 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 import {
+  TAssetLoanQuery,
+  TCreateAssetLoan,
+  TRejectLoan,
+} from "@/schemas/asset-loan-schema";
+import {
+  approveLoan,
+  createAssetLoan,
+  deleteAssetLoan,
   getAllAssetLoans,
   getAssetLoanById,
-  createAssetLoan,
-  approveLoan,
-  returnLoan,
   rejectLoan,
+  returnLoan,
   updateAssetLoan,
-  deleteAssetLoan,
 } from "@/services/asset-loan-service";
-import { TAssetLoanQuery, TCreateAssetLoan, TRejectLoan } from "@/schemas/asset-loan-schema";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useAssetLoans = (query?: TAssetLoanQuery) => {
   return useQuery({
@@ -28,18 +35,25 @@ export const useAssetLoan = (id: number) => {
 
 export const useCreateAssetLoan = () => {
   const queryClient = useQueryClient();
-  
+  const router = useRouter();
+
   return useMutation({
     mutationFn: createAssetLoan,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["asset-loans"] });
+      toast.success("Peminjaman berhasil dibuat");
+      router.back();
+    },
+    onError: (error) => {
+      toast.error("Peminjaman gagal dibuat");
+      console.error("Error creating data:", error);
     },
   });
 };
 
 export const useApproveLoan = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: approveLoan,
     onSuccess: (_, id) => {
@@ -51,7 +65,7 @@ export const useApproveLoan = () => {
 
 export const useReturnLoan = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: returnLoan,
     onSuccess: (_, id) => {
@@ -63,9 +77,9 @@ export const useReturnLoan = () => {
 
 export const useRejectLoan = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: ({ id, ...payload }: { id: number } & TRejectLoan) => 
+    mutationFn: ({ id, ...payload }: { id: number } & TRejectLoan) =>
       rejectLoan(id, payload),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ["asset-loans"] });
@@ -76,10 +90,15 @@ export const useRejectLoan = () => {
 
 export const useUpdateAssetLoan = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: ({ id, ...payload }: { id: number; payload: Partial<TCreateAssetLoan> }) =>
-      updateAssetLoan(id, payload),
+    mutationFn: ({
+      id,
+      ...payload
+    }: {
+      id: number;
+      payload: Partial<TCreateAssetLoan>;
+    }) => updateAssetLoan(id, payload),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ["asset-loans"] });
       queryClient.invalidateQueries({ queryKey: ["asset-loan", id] });
@@ -89,7 +108,7 @@ export const useUpdateAssetLoan = () => {
 
 export const useDeleteAssetLoan = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: deleteAssetLoan,
     onSuccess: () => {

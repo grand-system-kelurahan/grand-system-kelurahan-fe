@@ -3,6 +3,7 @@
 
 import { Pencil, Trash } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ButtonOutlineCSS } from "@/consts/button-css";
+import { formatDate, getCssColorInDoubleMode } from "@/lib/utils";
 import { TLetterApplicationWithRelation } from "@/schemas/letter-application-schema";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 import { useLetterApplicationStore } from "@/stores/use-letter-application-store";
@@ -22,7 +24,9 @@ export const letterApplicationColumns: ColumnDef<TLetterApplicationWithRelation>
   [
     {
       id: "resident_name",
+      accessorKey: "resident.name",
       header: "Penduduk",
+
       cell: ({ row }) => {
         const letterApplication = row.original;
         return <p>{letterApplication.resident.name}</p>;
@@ -53,7 +57,41 @@ export const letterApplicationColumns: ColumnDef<TLetterApplicationWithRelation>
       header: "Status",
       cell: ({ row }) => {
         const letterApplication = row.original;
-        return <p>{letterApplication.status || "-"}</p>;
+        return letterApplication.status == "new" ? (
+          <Badge
+            variant={"outline"}
+            className={getCssColorInDoubleMode("yellow")}>
+            Baru
+          </Badge>
+        ) : letterApplication.status == "on_progress" ? (
+          <Badge
+            variant={"outline"}
+            className={getCssColorInDoubleMode("amber")}>
+            Diproses
+          </Badge>
+        ) : letterApplication.status == "approved" ? (
+          <Badge
+            variant={"outline"}
+            className={getCssColorInDoubleMode("green")}>
+            Disetujui
+          </Badge>
+        ) : (
+          <Badge variant={"outline"} className={getCssColorInDoubleMode("red")}>
+            Ditolak
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: "submission_date",
+      header: "Tanggal Pengajuan",
+      cell: ({ row }) => {
+        const letterApplication = row.original;
+        return (
+          <p>
+            {formatDate(letterApplication.submission_date?.toString()) || "-"}
+          </p>
+        );
       },
     },
     {
@@ -67,6 +105,10 @@ export const letterApplicationColumns: ColumnDef<TLetterApplicationWithRelation>
           openDialog("approve");
           setSelectedData(letterApplication);
         };
+        const handleView = () => {
+          openDialog("view");
+          setSelectedData(letterApplication);
+        };
         return (
           <div className="flex gap-2">
             <DropdownMenu>
@@ -76,11 +118,7 @@ export const letterApplicationColumns: ColumnDef<TLetterApplicationWithRelation>
               <DropdownMenuContent>
                 <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleApprove}>
-                  Terima
-                </DropdownMenuItem>
-                <DropdownMenuItem>Tolak</DropdownMenuItem>
-                <DropdownMenuItem>Detail</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleView}>Detail</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

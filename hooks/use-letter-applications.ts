@@ -52,7 +52,7 @@ export function useCreateLetterApplication() {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       closeDialog();
       toast.success(toastText + "berhasil dibuat");
-      router.push("/");
+      router.back();
     },
     onError: (error) => {
       toast.error(toastText + "gagal dibuat");

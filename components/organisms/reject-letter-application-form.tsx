@@ -1,7 +1,10 @@
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { toast } from "sonner";
 
-import { useApproveLetterApplication } from "@/hooks/use-letter-applications";
+import {
+  useApproveLetterApplication,
+  useRejectLetterApplication,
+} from "@/hooks/use-letter-applications";
 import {
   TLetterApplication,
   TLetterApplicationWithRelation,
@@ -16,11 +19,11 @@ interface Props {
   approvedBy: TUser;
 }
 
-export default function ApproveLetterApplicationForm({
+export default function RejectLetterApplicationForm({
   letterApplication,
   approvedBy,
 }: Props) {
-  const { isPending, mutateAsync } = useApproveLetterApplication();
+  const { isPending, mutateAsync } = useRejectLetterApplication();
 
   async function onSubmit() {
     if (!approvedBy) {
@@ -29,14 +32,19 @@ export default function ApproveLetterApplicationForm({
     }
     const payload: Partial<TLetterApplication> = { approved_by: approvedBy.id };
 
-    await mutateAsync({
+    const res = await mutateAsync({
       id: letterApplication.id as number,
       payload,
     });
+    console.log(res);
   }
 
   return (
-    <Button onClick={onSubmit} disabled={isPending} className="w-full">
+    <Button
+      onClick={onSubmit}
+      disabled={isPending}
+      className="w-full"
+      variant={"destructive"}>
       {isPending ? (
         <>
           <LoadingIcon />
@@ -44,8 +52,8 @@ export default function ApproveLetterApplicationForm({
         </>
       ) : (
         <>
-          <Check className="mr-2 w-4 h-4" />
-          Setujui
+          <X className="mr-2 w-4 h-4" />
+          Tolak
         </>
       )}
     </Button>

@@ -1,8 +1,6 @@
 import z from "zod";
 
 import { BaseSchema } from "./base-schema";
-import { TFamilyMemberWithRelation } from "./family-member-schema";
-import { TRegion } from "./region-schema";
 
 export const FormAssetSchema = z
   .object({

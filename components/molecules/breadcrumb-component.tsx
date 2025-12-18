@@ -97,7 +97,10 @@ export default function BreadcrumbComponent() {
               )}
             </BreadcrumbItem>
             {index < breadcrumbItems.length - 1 && (
-              <BreadcrumbSeparator key={`separator-${index}`} />
+              <BreadcrumbSeparator
+                key={`separator-${index}`}
+                className="mt-1 ml-2"
+              />
             )}
           </div>
         ))}

@@ -22,28 +22,28 @@ export const ResidentSchema = z.object({
   name: z.string(),
 });
 
-export const AssetLoanSchema = z.object({
+export const FormAssetLoanSchema = z.object({
   id: z.number().optional(),
   asset_id: z.number(),
   resident_id: z.number(),
   quantity: z.number().min(1),
-  loan_date: z.string().date(),
-  planned_return_date: z.string().date(),
-  actual_return_date: z.string().date().nullable().optional(),
-  loan_status: z.nativeEnum(LoanStatus).default(LoanStatus.REQUESTED),
+  loan_date: z.date(),
+  planned_return_date: z.date(),
+  actual_return_date: z.date().nullable().optional(),
+  loan_status: z.enum(LoanStatus).default(LoanStatus.REQUESTED),
   loan_reason: z.string().nullable().optional(),
   rejected_reason: z.string().nullable().optional(),
-  created_at: z.string().datetime().optional(),
-  updated_at: z.string().datetime().optional(),
+  created_at: z.date().optional(),
+  updated_at: z.date().optional(),
 });
 
 // Extended schema dengan relations
-export const AssetLoanWithRelationsSchema = AssetLoanSchema.extend({
+export const AssetLoanWithRelationsSchema = FormAssetLoanSchema.extend({
   asset: AssetSchema.optional(),
   resident: ResidentSchema.optional(),
 });
 
-export const CreateAssetLoanSchema = AssetLoanSchema.pick({
+export const CreateFormAssetLoanSchema = FormAssetLoanSchema.pick({
   asset_id: true,
   resident_id: true,
   quantity: true,
@@ -52,7 +52,7 @@ export const CreateAssetLoanSchema = AssetLoanSchema.pick({
   loan_reason: true,
 });
 
-export const UpdateAssetLoanSchema = AssetLoanSchema.partial();
+export const UpdateFormAssetLoanSchema = FormAssetLoanSchema.partial();
 
 export const RejectLoanSchema = z.object({
   rejected_reason: z.string().min(1, "Rejection reason is required"),
@@ -65,14 +65,16 @@ export const AssetLoanQuerySchema = z.object({
   resident_id: z.string().transform(Number).optional(),
   from_date: z.string().date().optional(),
   to_date: z.string().date().optional(),
-  sort_by: z.enum([
-    "id",
-    "loan_date",
-    "planned_return_date",
-    "actual_return_date",
-    "loan_status",
-    "created_at",
-  ]).default("created_at"),
+  sort_by: z
+    .enum([
+      "id",
+      "loan_date",
+      "planned_return_date",
+      "actual_return_date",
+      "loan_status",
+      "created_at",
+    ])
+    .default("created_at"),
   sort_order: z.enum(["asc", "desc"]).default("desc"),
   per_page: z.string().transform(Number).default(10),
   page: z.string().transform(Number).default(1),
@@ -81,10 +83,12 @@ export const AssetLoanQuerySchema = z.object({
 // Types
 export type TAsset = z.infer<typeof AssetSchema>;
 export type TResident = z.infer<typeof ResidentSchema>;
-export type TAssetLoan = z.infer<typeof AssetLoanSchema>;
-export type TAssetLoanWithRelations = z.infer<typeof AssetLoanWithRelationsSchema>; // ← TAMBAHKAN INI
-export type TCreateAssetLoan = z.infer<typeof CreateAssetLoanSchema>;
-export type TUpdateAssetLoan = z.infer<typeof UpdateAssetLoanSchema>;
+export type TAssetLoan = z.infer<typeof FormAssetLoanSchema>;
+export type TAssetLoanWithRelations = z.infer<
+  typeof AssetLoanWithRelationsSchema
+>; // ← TAMBAHKAN INI
+export type TCreateAssetLoan = z.infer<typeof CreateFormAssetLoanSchema>;
+export type TUpdateAssetLoan = z.infer<typeof UpdateFormAssetLoanSchema>;
 export type TRejectLoan = z.infer<typeof RejectLoanSchema>;
 export type TAssetLoanQuery = z.infer<typeof AssetLoanQuerySchema>;
 

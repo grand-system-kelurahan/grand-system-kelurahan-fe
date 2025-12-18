@@ -21,7 +21,7 @@ export function handleApiError(
       error.response.data?.errors || {};
 
     const messages = Object.values(validationErrors)
-      .flat() 
+      .flat()
       .filter(Boolean)
       .join(", ");
 
@@ -225,6 +225,10 @@ function processLabelTemplate<T>(
 
     return String(value);
   });
+}
+
+export function getCssColorInDoubleMode(color: string): string {
+  return `dark:bg-${color}-800 dark:text-${color}-100 hover:dark:bg-${color}-800 hover:dark:text-${color}-100 bg-${color}-100 text-${color}-600 hover:bg-${color}-100 hover:text-${color}-600 `;
 }
 
 export async function handleCopyPendudukData(

@@ -1,8 +1,8 @@
 import { api } from "@/config/axios";
 import {
   AssetLoanQuerySchema,
-  AssetLoanSchema,
-  CreateAssetLoanSchema,
+  CreateFormAssetLoanSchema,
+  FormAssetLoanSchema,
   RejectLoanSchema,
   TAssetLoan,
   TAssetLoanQuery,
@@ -68,7 +68,7 @@ export const getAssetLoanById = async (id: number) => {
 };
 
 export const createAssetLoan = async (payload: TCreateAssetLoan) => {
-  const parsed = CreateAssetLoanSchema.safeParse(payload);
+  const parsed = CreateFormAssetLoanSchema.safeParse(payload);
   if (!parsed.success) {
     throw parsed.error;
   }
@@ -104,7 +104,7 @@ export const updateAssetLoan = async (
   id: number,
   payload: Partial<TAssetLoan>
 ) => {
-  const parsed = AssetLoanSchema.partial().safeParse(payload);
+  const parsed = FormAssetLoanSchema.partial().safeParse(payload);
   if (!parsed.success) {
     throw parsed.error;
   }
