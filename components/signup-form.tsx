@@ -110,6 +110,7 @@ export function SignupForm({
               value={passwordConfirmation}
               placeholder="Konfirmasi password"
               onChange={(e) => setPasswordConfirmation(e.target.value)}
+              disabled={isPending}
             />
           </div>
 

@@ -1,15 +1,21 @@
+import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { toast } from "sonner";
 
 import { TLetterApplication } from "@/schemas/letter-application-schema";
+import { TUser } from "@/schemas/user-schema";
 import {
   createLetterApplication,
   deleteLetterApplication,
   getAllLetterApplications,
+  getLetterApplicationsByUserId,
   updateLetterApplication,
 } from "@/services/letter-application-service";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
 import { useLetterApplicationStore } from "@/stores/use-letter-application-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { useUserLogin } from "./use-users";
 
 const queryKey = "LetterApplication";
 
@@ -22,9 +28,20 @@ export function useLetterApplications() {
   });
 }
 
+export function useMyLetterApplications() {
+  const { data, isLoading } = useUserLogin();
+  const userData: TUser = useMemo(() => data?.data, [data]);
+  return useQuery({
+    queryKey: [queryKey],
+    queryFn: () => getLetterApplicationsByUserId(userData.id as number),
+    enabled: !!data && !isLoading,
+  });
+}
+
 export function useCreateLetterApplication() {
   const queryClient = useQueryClient();
   const { closeDialog } = useIsDialogOpenStore();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: (payload: TLetterApplication) =>
@@ -34,6 +51,7 @@ export function useCreateLetterApplication() {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       closeDialog();
       toast.success(toastText + "berhasil dibuat");
+      router.push("/");
     },
     onError: (error) => {
       toast.error(toastText + "gagal dibuat");

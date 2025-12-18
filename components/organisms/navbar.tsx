@@ -26,6 +26,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+import { ModeToggle } from "../molecules/mode-toggle";
 import UserDropdown from "../molecules/user-dropdown";
 
 interface MenuItem {
@@ -79,7 +80,7 @@ const Navbar = ({
           title: "Pengajuan Saya",
           description: "Cek status pengajuan surat",
           icon: <AlertCircle className="size-5 shrink-0" />,
-          url: "/my-letter-applicatio",
+          url: "/my-letter-applications",
         },
       ],
     },
@@ -177,6 +178,7 @@ const Navbar = ({
               </NavigationMenuList>
             </NavigationMenu>
             <UserDropdown />
+            <ModeToggle />
           </div>
         </nav>
 

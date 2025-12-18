@@ -11,6 +11,11 @@ export const getAllLetterApplications = async () => {
   return data;
 };
 
+export const getLetterApplicationsByUserId = async (userId: number) => {
+  const { data } = await api.get(`/users/${userId}/${ENDPOINT}`);
+  return data;
+};
+
 export const createLetterApplication = async (payload: TLetterApplication) => {
   const parsed = FormLetterApplicationSchema.partial().safeParse(payload);
   if (!parsed.success) {

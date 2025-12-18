@@ -1,4 +1,4 @@
-import { Check, CheckCheck, Search, SearchIcon } from "lucide-react";
+import { Check, CheckCheck, Search, SearchIcon, Users } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,8 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
+import { Skeleton } from "../ui/skeleton";
+import { EmptyOutline } from "./empty-outline";
 
 interface Props {
   resident: TResident | null;
@@ -74,30 +76,50 @@ export default function SheetChoiceResident({
             </Button>
           </div>
           <div className="py-4 max-h-[65vh] overflow-y-auto">
-            {residentsData?.map((resident) => (
-              <div
-                key={resident.id}
-                className="flex justify-between items-center gap-2 shadow-sm px-4 py-2 border rounded-sm"
-                onClick={() => {
-                  onResidentChoice(resident);
-                }}>
-                <div>
-                  <p className="font-semibold text-sm">{resident.name}</p>
-                  <p className="text-muted-foreground text-xs">
-                    {resident?.region?.name}
-                  </p>
+            {isLoading &&
+              Array.from({ length: 5 }).map((_, index) => (
+                <div
+                  className="flex justify-between mb-4 px-4 py-2 border rounded-sm"
+                  key={index}>
+                  <div className="space-y-2">
+                    <Skeleton className="w-32 h-4" />
+                    <Skeleton className="w-16 h-2" />
+                  </div>
+                  <Skeleton className="w-8 h-8" />
                 </div>
-                {resident.id === residentInit?.id ? (
-                  <Button size={"sm"}>
-                    <CheckCheck />
-                  </Button>
-                ) : (
-                  <Button size={"sm"} variant={"outline"}>
-                    <Check />
-                  </Button>
-                )}
-              </div>
-            ))}
+              ))}
+            {residentsData && residentsData.length == 0 ? (
+              <EmptyOutline
+                title="Data Tidak Ditemukan"
+                description="Data pencarian penduduk tidak ditemukan"
+                icon={Users}
+              />
+            ) : (
+              residentsData?.map((resident) => (
+                <div
+                  key={resident.id}
+                  className="flex justify-between items-center gap-2 shadow-sm px-4 py-2 border rounded-sm"
+                  onClick={() => {
+                    onResidentChoice(resident);
+                  }}>
+                  <div>
+                    <p className="font-semibold text-sm">{resident.name}</p>
+                    <p className="text-muted-foreground text-xs">
+                      {resident?.region?.name}
+                    </p>
+                  </div>
+                  {resident.id === residentInit?.id ? (
+                    <Button size={"sm"}>
+                      <CheckCheck />
+                    </Button>
+                  ) : (
+                    <Button size={"sm"} variant={"outline"}>
+                      <Check />
+                    </Button>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
         <SheetFooter>

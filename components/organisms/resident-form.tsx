@@ -1,3 +1,4 @@
+import { Map } from "lucide-react";
 import { useMemo } from "react";
 import { UseFormReturn } from "react-hook-form";
 
@@ -19,6 +20,7 @@ import { TResident } from "@/schemas/resident-schema";
 import { TSelectOption } from "@/types/types";
 
 import ButtonSave from "../atoms/button-save";
+import { EmptyOutline } from "../molecules/empty-outline";
 import FormSkeleton from "../molecules/form-skeleton";
 import { InputDate } from "../molecules/input-date";
 import { InputSelect } from "../molecules/input-select";
@@ -80,6 +82,12 @@ export default function ResidentForm({ form, isLoading, onSubmit }: Props) {
     <>
       {isLoadingLingkungan ? (
         <FormSkeleton columnCount={2} rowCount={7} />
+      ) : regionsData.length == 0 ? (
+        <EmptyOutline
+          title="Data Lingkungan Tidak Ditemukan"
+          description="Data lingkungan tidak ditemukan, silahkan tambahkan data lingkungan terlebih dahulu"
+          icon={Map}
+        />
       ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

@@ -29,10 +29,18 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
   {
+    accessorKey: "national_number_id",
+    header: "NIK",
+    cell: ({ row }) => {
+      const penduduk = row.original;
+      return <p>{penduduk.national_number_id}</p>;
+    },
+  },
+  {
     accessorKey: "name",
     header: "Nama Lengkap",
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       return <p className="uppercase">{penduduk.name}</p>;
     },
   },
@@ -92,7 +100,7 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
 
       return (
         <div className="flex flex-col justify-start items-start gap-2 p-2">
-          <span className="text-start">Banjar</span>
+          <span className="text-start">Lingkungan</span>
           <Select
             onValueChange={(value) => {
               column.setFilterValue(value === "all" ? undefined : value);
@@ -149,7 +157,7 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       return <p className="uppercase">{penduduk.occupation}</p>;
     },
     filterFn: (row, id, filterValue) => {
@@ -182,7 +190,7 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
       );
     },
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       return (
         <p className="uppercase">
           {formatDate(penduduk.updated_at?.toString())}
@@ -194,7 +202,7 @@ export const residentColumns: ColumnDef<TResidentWithRelation>[] = [
     id: "Aksi",
     header: "Aksi",
     cell: ({ row }) => {
-      const penduduk: TResident = row.original;
+      const penduduk = row.original;
       const { setSelectedData } = useResidentStore();
       const { openDialog } = useIsDialogOpenStore();
       const pathSegments = usePathSegments();
