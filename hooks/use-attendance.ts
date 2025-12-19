@@ -30,6 +30,23 @@ function normalizeOne(json: any) {
   return json?.data?.attendance ?? json?.attendance ?? json?.data ?? json;
 }
 
+function toTodayIsoDate() {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+function normalizeTimeToDateTime(time: string) {
+  const t = (time ?? "").trim();
+  if (!t) return t;
+  if (t.includes("T") || t.includes(" ") || t.endsWith("Z")) return t;
+  if (/^\d{2}:\d{2}$/.test(t)) return `${toTodayIsoDate()}T${t}:00`;
+  if (/^\d{2}:\d{2}:\d{2}$/.test(t)) return `${toTodayIsoDate()}T${t}`;
+  return t;
+}
+
 export function useAttendances() {
   return useQuery({
     queryKey: [queryKey],
@@ -48,7 +65,8 @@ export function useAttendanceById(id: number) {
 export function useAttendancesByEmployee(employeeId: number) {
   return useQuery({
     queryKey: [queryKey, "employee", employeeId],
-    queryFn: async () => normalizeList(await getAttendancesByEmployee(employeeId)),
+    queryFn: async () =>
+      normalizeList(await getAttendancesByEmployee(employeeId)),
     enabled: !!employeeId,
   });
 }
@@ -81,7 +99,8 @@ export function useUpdateAttendance() {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (vars: { id: number; payload: Partial<TAttendanceForm> }) => updateAttendance(vars),
+    mutationFn: (vars: { id: number; payload: Partial<TAttendanceForm> }) =>
+      updateAttendance(vars),
     onSuccess: (_d, vars) => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       queryClient.invalidateQueries({ queryKey: [queryKey, vars.id] });
@@ -123,7 +142,11 @@ export function useClockIn() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: { employee_id: number; time: string }) => clockInAttendance(payload),
+    mutationFn: (payload: { employee_id: number; time: string }) =>
+      clockInAttendance({
+        employee_id: payload.employee_id,
+        time: normalizeTimeToDateTime(payload.time),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       toast.success("Clock-in berhasil");
@@ -139,7 +162,11 @@ export function useClockOut() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: { employee_id: number; time: string }) => clockOutAttendance(payload),
+    mutationFn: (payload: { employee_id: number; time: string }) =>
+      clockOutAttendance({
+        employee_id: payload.employee_id,
+        time: normalizeTimeToDateTime(payload.time),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       toast.success("Clock-out berhasil");
