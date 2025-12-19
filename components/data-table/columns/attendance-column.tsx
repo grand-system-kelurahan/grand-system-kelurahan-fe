@@ -2,7 +2,13 @@ import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
 import type { TAttendance } from "@/schemas/attendance-schema";
@@ -34,42 +40,52 @@ export function AttendanceActionsCell({ row }: CellProps) {
   const [timeIn, setTimeIn] = useState(nowTimeHHMM());
   const [timeOut, setTimeOut] = useState(nowTimeHHMM());
 
-  const isClockingIn = (clockIn as any).isPending ?? (clockIn as any).isLoading ?? false;
-  const isClockingOut = (clockOut as any).isPending ?? (clockOut as any).isLoading ?? false;
+  const isClockingIn =
+    (clockIn as any).isPending ?? (clockIn as any).isLoading ?? false;
+  const isClockingOut =
+    (clockOut as any).isPending ?? (clockOut as any).isLoading ?? false;
 
   const openDeleteDialog = () => {
     setSelectedData(att);
-    if (typeof dialogStore.openDialog === "function") return dialogStore.openDialog("delete");
-    if (typeof dialogStore.setDialogType === "function") return dialogStore.setDialogType("delete");
+    if (typeof dialogStore.openDialog === "function")
+      return dialogStore.openDialog("delete");
+    if (typeof dialogStore.setDialogType === "function")
+      return dialogStore.setDialogType("delete");
   };
 
   const submitClockIn = () => {
     if (!att.employee_id) return;
-    clockIn.mutate(
-      { employee_id: Number(att.employee_id), time: timeIn },
-      { onSuccess: () => setOpenIn(false) } as any
-    );
+    clockIn.mutate({ employee_id: Number(att.employee_id), time: timeIn }, {
+      onSuccess: () => setOpenIn(false),
+    } as any);
   };
 
   const submitClockOut = () => {
     if (!att.employee_id) return;
-    clockOut.mutate(
-      { employee_id: Number(att.employee_id), time: timeOut },
-      { onSuccess: () => setOpenOut(false) } as any
-    );
+    clockOut.mutate({ employee_id: Number(att.employee_id), time: timeOut }, {
+      onSuccess: () => setOpenOut(false),
+    } as any);
   };
 
   return (
     <div className="flex items-center gap-2">
-      <Link href={`attendances/${att.id}`}>
+      <Link href={`/attendances/${att.id}`}>
         <Button>Detail</Button>
       </Link>
 
-      <Button variant="outline" onClick={() => setOpenIn(true)} disabled={isClockingIn}>
+      <Button
+        variant="outline"
+        onClick={() => setOpenIn(true)}
+        disabled={isClockingIn}
+      >
         Check-in
       </Button>
 
-      <Button variant="outline" onClick={() => setOpenOut(true)} disabled={isClockingOut}>
+      <Button
+        variant="outline"
+        onClick={() => setOpenOut(true)}
+        disabled={isClockingOut}
+      >
         Check-out
       </Button>
 
@@ -84,12 +100,21 @@ export function AttendanceActionsCell({ row }: CellProps) {
           </DialogHeader>
           <div className="space-y-2">
             <div className="text-sm">
-              Employee ID: <span className="font-medium">{att.employee_id}</span>
+              Employee ID:{" "}
+              <span className="font-medium">{att.employee_id}</span>
             </div>
-            <Input type="time" value={timeIn} onChange={(e) => setTimeIn(e.target.value)} />
+            <Input
+              type="time"
+              value={timeIn}
+              onChange={(e) => setTimeIn(e.target.value)}
+            />
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setOpenIn(false)} disabled={isClockingIn}>
+            <Button
+              variant="outline"
+              onClick={() => setOpenIn(false)}
+              disabled={isClockingIn}
+            >
               Batal
             </Button>
             <Button onClick={submitClockIn} disabled={isClockingIn || !timeIn}>
@@ -106,15 +131,27 @@ export function AttendanceActionsCell({ row }: CellProps) {
           </DialogHeader>
           <div className="space-y-2">
             <div className="text-sm">
-              Employee ID: <span className="font-medium">{att.employee_id}</span>
+              Employee ID:{" "}
+              <span className="font-medium">{att.employee_id}</span>
             </div>
-            <Input type="time" value={timeOut} onChange={(e) => setTimeOut(e.target.value)} />
+            <Input
+              type="time"
+              value={timeOut}
+              onChange={(e) => setTimeOut(e.target.value)}
+            />
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setOpenOut(false)} disabled={isClockingOut}>
+            <Button
+              variant="outline"
+              onClick={() => setOpenOut(false)}
+              disabled={isClockingOut}
+            >
               Batal
             </Button>
-            <Button onClick={submitClockOut} disabled={isClockingOut || !timeOut}>
+            <Button
+              onClick={submitClockOut}
+              disabled={isClockingOut || !timeOut}
+            >
               {isClockingOut ? "Menyimpan..." : "Simpan"}
             </Button>
           </DialogFooter>
@@ -128,7 +165,9 @@ export const attendanceColumns: ColumnDef<TAttendance>[] = [
   {
     accessorKey: "employee_id",
     header: "Pegawai",
-    cell: ({ getValue }) => <EmployeeNameCell employeeId={Number(getValue() as any)} />,
+    cell: ({ getValue }) => (
+      <EmployeeNameCell employeeId={Number(getValue() as any)} />
+    ),
   },
   { accessorKey: "date", header: "Tanggal" },
   {
@@ -158,7 +197,11 @@ function EmployeeNameCell({ employeeId }: { employeeId: number }) {
 
   const employees = useMemo(() => {
     if (Array.isArray(data)) return data as any[];
-    const list = (data as any)?.data?.employees ?? (data as any)?.employees ?? (data as any)?.data ?? [];
+    const list =
+      (data as any)?.data?.employees ??
+      (data as any)?.employees ??
+      (data as any)?.data ??
+      [];
     return Array.isArray(list) ? list : [];
   }, [data]);
 
