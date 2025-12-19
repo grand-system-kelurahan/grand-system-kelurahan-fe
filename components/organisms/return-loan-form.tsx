@@ -23,7 +23,7 @@ export default function ReturnLoanForm({ loan }: ReturnLoanFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [returnCondition, setReturnCondition] = useState("good");
   const [notes, setNotes] = useState("");
-  const { setDialogType } = useIsDialogOpenStore();
+  const { closeDialog } = useIsDialogOpenStore();
   const returnMutation = useReturnLoan();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,29 +33,21 @@ export default function ReturnLoanForm({ loan }: ReturnLoanFormProps) {
     try {
       await returnMutation.mutateAsync(loan.id!);
 
-      toast({
-        title: "Berhasil Dikembalikan",
-        description: `Aset ${loan.asset?.asset_name} telah dikembalikan`,
-        variant: "default",
-      });
+      toast.success("Berhasil mengembalikan aset");
 
-      setDialogType(null);
+      closeDialog();
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "Gagal mengembalikan aset";
 
-      toast({
-        title: "Gagal",
-        description: errorMessage,
-        variant: "destructive",
-      });
+      // toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleCancel = () => {
-    setDialogType(null);
+    closeDialog();
   };
 
   const calculateOverdueDays = () => {

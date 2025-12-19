@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { Description, Heading1 } from "@/components/atoms/typography";
 import { useAssetById } from "@/hooks/use-assets";
 import { TAssetWithRelation } from "@/schemas/asset-schema";
+import { DataTable } from "../data-table/data-table";
 
 import ButtonBack from "../atoms/button-back";
 import CodeEditorDialog from "../molecules/code-editor-dialog";
@@ -21,6 +22,10 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { assetLoanColumns } from "../data-table/columns/asset-loan-columns";
+import { TAssetLoanWithRelations } from "@/schemas/asset-loan-schema";
+import { useAssetLoanStore } from "@/stores/use-asset-loan-store";
+import { useAssetLoans } from "@/hooks/use-asset-loans";
 
 interface Props {
   id: number;
@@ -109,6 +114,67 @@ export default function AssetDetailPage({ id }: Props) {
           icon={Users}
         />
       )}
+
+      {/* LIST PEMINJAMAN */}
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold mb-2">Riwayat Peminjaman Aset</h2>
+
+        {assetsData?.id && <AssetLoanTable assetId={assetsData.id} />}
+      </div>
     </div>
+  );
+}
+
+function AssetLoanTable({ assetId }: { assetId: number }) {
+  const { selectedData, filters, setFilters } = useAssetLoanStore();
+
+  const { data, isLoading, refetch } = useAssetLoans({
+    loan_status: filters.status,
+    from_date: filters.fromDate,
+    to_date: filters.toDate,
+    sort_by: filters.sortBy,
+    sort_order: filters.sortOrder,
+    keyword: filters.keyword,
+    asset_id: assetId,
+  });
+
+  const assetLoansData: TAssetLoanWithRelations[] = useMemo(
+    () => data?.data?.asset_loans || [],
+    [data]
+  );
+
+  const meta = data?.meta || {
+    current_page: 1,
+    total: 0,
+    per_page: 10,
+  };
+
+  if (isLoading) {
+    return <TableSkeleton columnCount={5} rowCount={5} />;
+  }
+
+  return (
+    <>
+      {isLoading ? (
+        <TableSkeleton rowCount={10} columnCount={6} />
+      ) : (
+        <div className="border rounded-lg">
+          <DataTable
+            columns={assetLoanColumns}
+            data={assetLoansData}
+            filteringKey="asset.asset_name"
+            refetch={refetch}
+            pagination={{
+              currentPage: meta.current_page,
+              totalItems: meta.total,
+              perPage: meta.per_page,
+              onPageChange: (page) => {
+                // Handle pagination if needed
+              },
+            }}
+          />
+        </div>
+      )}
+    </>
   );
 }

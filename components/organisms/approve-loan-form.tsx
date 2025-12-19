@@ -15,7 +15,7 @@ interface ApproveLoanFormProps {
 
 export default function ApproveLoanForm({ loan }: ApproveLoanFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const { setDialogType } = useIsDialogOpenStore();
+  const { closeDialog } = useIsDialogOpenStore();
   const approveMutation = useApproveLoan();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,17 +27,17 @@ export default function ApproveLoanForm({ loan }: ApproveLoanFormProps) {
       
       toast.success("Berhasil disetujui");
       
-      setDialogType(null);
+      closeDialog();
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Gagal menyetujui peminjaman";
-      toast.error(errorMessage);
+      // toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleCancel = () => {
-    setDialogType(null);
+    closeDialog();
   };
 
   return (

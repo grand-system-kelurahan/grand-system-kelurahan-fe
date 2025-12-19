@@ -17,6 +17,9 @@ import {
   updateAssetLoan,
 } from "@/services/asset-loan-service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { handleApiError } from "@/lib/utils";
+
+const toastText = "Aset Loan ";
 
 export const useAssetLoans = (query?: TAssetLoanQuery) => {
   return useQuery({
@@ -45,7 +48,7 @@ export const useCreateAssetLoan = () => {
       router.back();
     },
     onError: (error) => {
-      toast.error("Peminjaman gagal dibuat");
+      handleApiError(error, toastText + " gagal diperbarui");
       console.error("Error creating data:", error);
     },
   });
@@ -84,6 +87,10 @@ export const useRejectLoan = () => {
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ["asset-loans"] });
       queryClient.invalidateQueries({ queryKey: ["asset-loan", id] });
+    },
+    onError: (error) => {
+      // toast.error(toastText + "gagal diperbarui");
+      console.error("Error updating data:", error);
     },
   });
 };

@@ -93,6 +93,8 @@ export const rejectLoan = async (id: number, payload: TRejectLoan) => {
     throw parsed.error;
   }
 
+  // console.log("payload: ", parsed);
+
   const { data } = await api.post<TAssetLoan>(
     `/${ENDPOINT}/${id}/reject`,
     parsed.data
