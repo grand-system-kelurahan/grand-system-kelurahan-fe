@@ -5,7 +5,7 @@ import { useMemo } from "react";
 
 import { Description, Heading1 } from "@/components/atoms/typography";
 import { useResidentById } from "@/hooks/use-residents";
-import { TResident } from "@/schemas/resident-schema";
+import { TResident, TResidentWithRelation } from "@/schemas/resident-schema";
 
 import ButtonBack from "../atoms/button-back";
 import CodeEditorDialog from "../molecules/code-editor-dialog";
@@ -19,7 +19,10 @@ interface Props {
 
 export default function ResidentDetailPage({ id }: Props) {
   const { data, isLoading, error } = useResidentById(id);
-  const residentsData: TResident = useMemo(() => data?.data.resident, [data]);
+  const residentsData: TResidentWithRelation = useMemo(
+    () => data?.data.resident,
+    [data]
+  );
 
   return (
     <div>

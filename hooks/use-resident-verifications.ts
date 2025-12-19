@@ -1,38 +1,55 @@
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { TRegion } from "@/schemas/region-schema";
+import { TResident } from "@/schemas/resident-schema";
+import { TResidentVerification } from "@/schemas/resident-verification-schema";
 import {
-  createRegion,
-  deleteRegion,
-  getAllRegions,
-  updateRegion,
-} from "@/services/region-service";
+  createResident,
+  deleteResident,
+  getAllResidents,
+  getResidentById,
+  getResidentByName,
+  searchResidents,
+  updateResident,
+} from "@/services/resident-service";
+import {
+  createResidentVerification,
+  getAllResidentVerifications,
+  getResidentVerificationById,
+} from "@/services/resident-verification-service";
 import { useIsDialogOpenStore } from "@/stores/use-is-open-dialog-store";
-import { useRegionStore } from "@/stores/use-region-store";
+import { useResidentStore } from "@/stores/use-resident-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-const queryKey = "region";
+const queryKey = "resident-verifications";
+const toastText = "Pengajuan penduduk ";
 
-const toastText = "Lingkungan ";
-
-export function useRegions() {
+export function useResidentVerifications() {
   return useQuery({
     queryKey: [queryKey],
-    queryFn: getAllRegions,
+    queryFn: getAllResidentVerifications,
   });
 }
 
-export function useCreateRegion() {
+export function useResidentVerificationById(id: number) {
+  return useQuery({
+    queryKey: [queryKey],
+    queryFn: () => getResidentVerificationById(id),
+  });
+}
+
+export function useCreateResidentVerification() {
   const queryClient = useQueryClient();
   const { closeDialog } = useIsDialogOpenStore();
+  const router = useRouter();
 
   return useMutation({
-    mutationFn: createRegion,
-
+    mutationFn: createResidentVerification,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       closeDialog();
       toast.success(toastText + "berhasil dibuat");
+      router.back();
     },
     onError: (error) => {
       toast.error(toastText + "gagal dibuat");
@@ -42,24 +59,21 @@ export function useCreateRegion() {
   });
 }
 
-export function useUpdateRegion() {
+export function useUpdateResident() {
   const queryClient = useQueryClient();
-  const { deleteSelectedData } = useRegionStore();
+  const { deleteSelectedData } = useResidentStore();
   const { closeDialog } = useIsDialogOpenStore();
+  const router = useRouter();
 
   return useMutation({
-    mutationFn: ({ id, payload }: { id: number; payload: TRegion }) =>
-      updateRegion({
-        id,
-        payload,
-      }),
+    mutationFn: ({ id, payload }: { id: number; payload: TResident }) =>
+      updateResident({ id, payload }),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
-      queryClient.invalidateQueries({
-        queryKey: [queryKey, variables.id],
-      });
+      queryClient.invalidateQueries({ queryKey: [queryKey, variables.id] });
       toast.success(toastText + "berhasil diperbarui");
       closeDialog();
+      router.back();
       deleteSelectedData();
     },
     onError: (error) => {
@@ -70,13 +84,13 @@ export function useUpdateRegion() {
   });
 }
 
-export function useDeleteRegion() {
+export function useDeleteResident() {
   const queryClient = useQueryClient();
   const { closeDialog } = useIsDialogOpenStore();
-  const { deleteSelectedData } = useRegionStore();
+  const { deleteSelectedData } = useResidentStore();
 
   return useMutation({
-    mutationFn: (id: number) => deleteRegion(id),
+    mutationFn: (id: number) => deleteResident(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
       toast.success(toastText + "berhasil dihapus");

@@ -49,6 +49,10 @@ export const sidebarData = [
         title: "Kartu Keluarga",
         url: "/admin/dashboard/family-cards",
       },
+      {
+        title: "Verifikasi Penduduk",
+        url: "/admin/dashboard/resident-verifications",
+      },
     ],
   },
   {

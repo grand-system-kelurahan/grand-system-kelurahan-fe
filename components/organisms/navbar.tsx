@@ -111,10 +111,6 @@ const Navbar = ({
         },
       ],
     },
-    {
-      title: "Absensi",
-      url: "/",
-    },
   ],
   auth = {
     login: { title: "Login", url: "#" },

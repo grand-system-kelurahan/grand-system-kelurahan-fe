@@ -19,10 +19,6 @@ import {
 import { sidebarData } from "@/consts/sidebar-data";
 import { usePathSegments } from "@/hooks/use-path-segment";
 
-const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-};
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathSegments = usePathSegments();
   const currentPath = pathSegments.fullPath;
